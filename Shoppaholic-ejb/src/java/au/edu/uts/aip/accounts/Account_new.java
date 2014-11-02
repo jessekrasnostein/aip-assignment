@@ -7,7 +7,6 @@
 package au.edu.uts.aip.accounts;
 
 import au.edu.uts.aip.shoppingList.ShoppingList;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,14 +19,7 @@ import javax.validation.constraints.Size;
  * @author jessekras
  */
 @Entity
-//@NamedQueries({
-//    @NamedQuery(
-//            name = "Account.findByEmail",
-//            query = "select a from Account a"
-//                    + "where a.id = :id"
-//    ),
-//})
-public class Account implements Serializable {
+public class Account_new {
     
     @Id
     @GeneratedValue
