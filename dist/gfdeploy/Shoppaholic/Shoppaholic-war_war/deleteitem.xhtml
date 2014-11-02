@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://java.sun.com/jsf/passthrough">
+    <f:metadata>
+        <f:viewAction action="#{shoppingItemController.loadItem(param.index)}"/>
+    </f:metadata>
+    <h:head>
+        <title>Family Shopping App</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+        <h:outputStylesheet library="css" name="dashboard.css" />
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Family Shopping App</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a><h:outputText value="#{sessionScope.account.firstname}" /></a></li>
+                        <li><a><h:form><h:commandButton value="Logout" 
+                                                        action="#{accountsController.logout()}"/>
+                                </h:form></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li><a href="#">Home</a></li>
+                        <li class="active"><a href="#">Item</a></li>
+                        <li><a href="#" >View by store</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="container-fluid">
+                    <h1 class="page-header">Confirm Delete of: <h:outputText value="#{shoppingItemController.item.name}" /></h1>
+                    <h:form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="itemName1" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <h:inputText class="form-control" readonly="true" value="#{shoppingItemController.item.name}" pt:placeholder="#{shoppingItemController.item.name}"  />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDesc1" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <h:inputTextarea class="form-control"  readonly="true" rows="2" value="#{shoppingItemController.item.description}" pt:placeholder="#{shoppingItemController.item.description}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="store1" class="col-sm-2 control-label">Store</label>
+                            <div class="col-sm-10">
+                                <h:inputText class="form-control" readonly="true" value="#{shoppingItemController.item.store}" pt:placeholder="#{shoppingItemController.item.store}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price1" class="col-sm-2 control-label">Price</label>
+                            <div class="col-sm-10">
+                                <h:inputText class="form-control" readonly="true" value="#{shoppingItemController.item.price}" pt:placeholder="#{shoppingItemController.item.priceString}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <h:inputHidden value="#{shoppingItemController.item.id}"/>
+                                <h:button class="btn btn-default" value="Cancel" outcome="home"/>
+                                <h:commandButton class="btn btn-warning" value="Delete" action="#{shoppingItemController.delete}"/>
+                            </div>
+                        </div>
+                    </h:form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+
