@@ -9,6 +9,7 @@ import au.edu.uts.aip.accounts.Account;
 import au.edu.uts.aip.accounts.AccountBean;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -62,10 +63,19 @@ public class AccountsController implements Serializable {
         return "/login";
     }
 
-//    public String register() {
-//        AccountDAO.create(account);
-//        return "login";
-//    }
+    public String register() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) 
+                context.getExternalContext().getRequest();
+        try {
+            accounts.create(account);
+        } catch (EJBException e) {
+            context.addMessage(null, new FacesMessage(e.getMessage()));
+            return null;
+        }
+        
+        return "login";
+    }
     
     // Set user in the session. 
     public void setCurrentUser() {

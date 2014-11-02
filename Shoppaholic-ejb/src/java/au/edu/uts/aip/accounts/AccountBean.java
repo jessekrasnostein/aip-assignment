@@ -6,6 +6,7 @@
 
 package au.edu.uts.aip.accounts;
 
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,12 +28,12 @@ public class AccountBean {
                 + "where a.email = :email ", Account.class);
         query.setParameter("email", email);
         return query.getResultList().get(0);
-//         TypedQuery<Account> query = em.createNamedQuery(
-//                "Account.findByEmail", Account.class
-//        );
-//        query.setParameter("email", email);
-//        return query.getResultList().get(0);
-       // return null;
     }
     
+    public void create(Account account) {
+        Logger log = Logger.getLogger(this.getClass().getName());
+        log.info("Saving account to database");
+        
+        em.persist(account);
+    }
 }
