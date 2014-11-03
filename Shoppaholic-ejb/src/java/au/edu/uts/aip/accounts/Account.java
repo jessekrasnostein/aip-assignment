@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package au.edu.uts.aip.accounts;
 
 import au.edu.uts.aip.shoppingList.ShoppingList;
@@ -13,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -57,7 +52,8 @@ public class Account implements Serializable {
     private Date dateOfBirth;
     
     @NotNull(message = "Email is required")
-    @Size(min = 1, message = "Email is required")
+    @Size(min = 1, message = "Please enter valid Email")
+    @Pattern(regexp="([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)", message = "Please enter valid Email")
     private String email;
    
     @OneToMany(mappedBy="account", targetEntity = ShoppingList.class, 
@@ -168,8 +164,5 @@ public class Account implements Serializable {
     public void setPlan(SubscriptionPlan plan) {
         this.plan = plan;
     }
-    
-    
-    
     
 }
