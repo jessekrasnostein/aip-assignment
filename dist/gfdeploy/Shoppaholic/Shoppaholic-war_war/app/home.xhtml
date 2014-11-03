@@ -58,7 +58,42 @@
                     <h:form>
                         <h:commandButton value="Add Sample Data" action="#{shoppingItemController.addSampleData()}"/>
                     </h:form> 
-                    <h1 class="page-header">Shopping List</h1>
+                    
+                    <h1 class="page-header">Available Lists</h1>
+                    <div class="table-responsive">
+                        <h:dataTable styleClass="table table-striped" var="list"  value="#{shoppingItemController.availableLists()}">
+                            <h:column>
+                                <f:facet name="header">
+                                    List Name
+                                </f:facet>
+                                <h:outputText value="#{list.name}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    List Id
+                                </f:facet>
+                                <h:outputText value="#{list.id}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Edit
+                                </f:facet>
+                                <h:link value="Edit" outcome="editlist">
+                                    <f:param name="index" value="#{list.id}"/>
+                                </h:link>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Delete
+                                </f:facet>
+                                <h:link value="Delete" outcome="deletelist">
+                                    <f:param name="index" value="#{list.id}"/>
+                                </h:link>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                    
+                    <h1 class="page-header">Shopping List - <h:outputText value="#{sessionScope.currentList.name}"/></h1>
                     <div class="table-responsive">
                         <h:dataTable styleClass="table table-striped" var="item"  value="#{shoppingItemController.list()}">
                             <h:column>

@@ -50,6 +50,7 @@ public class Account implements Serializable {
     @Size(min = 1, message = "Password is required")
     private String password;
     
+    private ShoppingList currentList;
         
     @NotNull(message = "Date of birth is required")
     @Temporal(TemporalType.DATE)
@@ -86,9 +87,13 @@ public class Account implements Serializable {
 //     ULTIMATE
 //     -Unlimited Lists
 //     -Unlimited Items per list
+    public ShoppingList getCurrentList() {
+        return currentList;
+    }
 
-  
-    
+    public void setCurrentList(ShoppingList currentList) {
+        this.currentList = currentList;
+    }
     
     
     public int getAcctId() {

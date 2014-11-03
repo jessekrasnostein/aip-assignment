@@ -56,6 +56,7 @@ public class ShoppingBean {
 
         
         account.getShoppingLists().add(weeklyList);
+        account.setCurrentList(weeklyList);
         
         item1.setShoppingList(weeklyList);
         item2.setShoppingList(weeklyList);
@@ -88,42 +89,59 @@ public class ShoppingBean {
         list.getShoppingListItems().add(shoppingItem);
         em.merge(list);
         em.persist(shoppingItem);
-
     }
 
+    
+    public List<ShoppingList> getAvailableLists(String email) {
+        Logger log = Logger.getLogger(this.getClass().getName());
+        //List<ShoppingList> lists = new ArrayList<>();
+        return accountBean.findByEmail(email).getShoppingLists();
+    }
+    
+    public ShoppingList currentList(String email) {
+        Logger log = Logger.getLogger(this.getClass().getName());
+        log.info("Current List: " + accountBean.findByEmail(email).getCurrentList());
+        return accountBean.findByEmail(email).getCurrentList();
+    }
     /**
      * *
      *
      * @return currently active list for the user
-     *
-     *
      */
-    public List<ShoppingItem> getCurrentList(String email) {
+    public List<ShoppingItem> getCurrentListItems(String email)  {
         // get active list id
         Logger log = Logger.getLogger(this.getClass().getName());
-        int count = accountBean.findByEmail(email).getShoppingLists().size();
-        log.info("List size: " + count);
-        if (count > 0) {
-            int id = accountBean.findByEmail(email).getShoppingLists().get(0).getId();
-            String name = accountBean.findByEmail(email).getShoppingLists().get(0).getName();
-
-            
-            log.info("List ID: " + id + " Name: " + name);
-
-            List<ShoppingItem> items = accountBean.findByEmail(email).getShoppingLists().get(0).getShoppingListItems();
-
-            for (ShoppingItem i : items) {
-                log.info(i.toString());
-            }
-
-        }
+        List<ShoppingItem> items = new ArrayList<>();
+        
+        try {
+            items = accountBean.findByEmail(email).getCurrentList().getShoppingListItems();
+        } catch (NullPointerException np) {
+            log.severe(np.getMessage());
+        } 
+//        int count = accountBean.findByEmail(email).getShoppingLists().size();
+//        log.info("List size: " + count);
+//        if (count > 0) {
+//            int id = accountBean.findByEmail(email).getShoppingLists().get(0).getId();
+//            String name = accountBean.findByEmail(email).getShoppingLists().get(0).getName();
+//
+//            
+//            log.info("List ID: " + id + " Name: " + name);
+//
+//            items = accountBean.findByEmail(email).getShoppingLists().get(0).getShoppingListItems();
+//
+//            for (ShoppingItem i : items) {
+//                log.info(i.toString());
+//            }
+//
+//        }
 
         // get items from the list whose id is...
-        TypedQuery<ShoppingItem> query = em.createNamedQuery(
-                "findAll", ShoppingItem.class
-        );
+//        TypedQuery<ShoppingItem> query = em.createNamedQuery(
+//                "findAll", ShoppingItem.class
+//        );
         //query.setParameter("lastName", lastName);
-        return query.getResultList();
+        
+        return items;
     }
 
 }
