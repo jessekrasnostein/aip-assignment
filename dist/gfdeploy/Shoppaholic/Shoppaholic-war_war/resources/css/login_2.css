@@ -36,17 +36,16 @@ and open the template in the editor.
 {
     z-index: 2;
 }
-.form-signin input[type="text"]
-{
-    margin-bottom: -1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-.form-signin input[type="password"]
-{
+.ui-inputfield {
     margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    position: relative;
+    font-size: 16px;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+.form-signin input {
+    margin-bottom: 10px;
 }
 .account-wall
 {
@@ -60,7 +59,7 @@ and open the template in the editor.
 .login-title
 {
     color: #555;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 400;
     display: block;
 }

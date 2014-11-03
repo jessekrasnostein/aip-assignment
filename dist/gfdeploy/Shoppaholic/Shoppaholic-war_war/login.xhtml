@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Sign In</title>
+        <title>Login - Shoppaholic</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="description" content=""/>
@@ -13,34 +14,25 @@
     <h:body>
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
         <h:outputStylesheet library="css" name="login_2.css" />
-        
         <div class="container">
             <div class="row">
-                <h:graphicImage class="logo" value="/resources/img/logo.png"/>
+                <h:graphicImage class="logo" alt="Shoppaholic" value="/resources/img/logo.png"/>
                 <div class="col-sm-6 col-md-4 col-md-offset-4">
-                    
                     <div class="account-wall">
-                        <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
-                            alt=""/>
+                        <h:graphicImage class="profile-img" value="/resources/img/photo.png"/>
                         <h:form class="form-signin">
-                            <h:messages/>
-                            <h:inputText class="form-control" value="#{accountsController.account.email}" pt:placeholder="Email" />
-                            <h:inputSecret class="form-control" value="#{accountsController.account.password}" pt:placeholder="Password"/>
-                        <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign in" action="#{accountsController.login()}"/>
-                        
-                        <label class="checkbox pull-left">
-                            <input type="checkbox" value="remember-me"/>
-                            Remember me
-                        </label>
-                        <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+                            <h:messages class="message" infoClass="alert-success" errorClass="alert-danger" globalOnly="true" layout="list" />
+                            <h:inputText class="form-control" id="username" value="#{accountsController.account.username}"/>
+                            <p:watermark for="username" value="Username" />
+                            <h:inputSecret class="form-control" id="password" value="#{accountsController.account.password}"/>
+                            <p:watermark for="password" value="password" />
+                            <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign in" action="#{accountsController.login()}"/>
+                            <h:link class="btn btn-lg btn-info btn-block text-center new-account" outcome="register">Register an account</h:link>
                         </h:form>
                     </div>
-                    <h:link class="text-center new-account" outcome="register">Create an account</h:link>
                 </div>
             </div>
         </div>
-
-
     </h:body>
 </html>
 

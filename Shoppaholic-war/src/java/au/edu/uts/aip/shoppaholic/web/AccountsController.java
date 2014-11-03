@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletException;
@@ -41,7 +42,7 @@ public class AccountsController implements Serializable {
         HttpServletRequest request = (HttpServletRequest) 
                 context.getExternalContext().getRequest();
         try {
-            request.login(account.getEmail(), account.getPassword());
+            request.login(account.getUsername(), account.getPassword());
             setCurrentUser();
         } catch (ServletException e) {
             context.addMessage(null, new FacesMessage(e.getMessage()));
@@ -71,6 +72,10 @@ public class AccountsController implements Serializable {
         try {
             accounts.create(account);
             
+            FacesMessage message = new FacesMessage("Account Created Sucessfully. Please Login Below");
+            message.setSeverity(SEVERITY_INFO);
+            context.addMessage(null, message);
+            context.getExternalContext().getFlash().setKeepMessages(true);
         } catch (EJBException e) {
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return null;
@@ -86,6 +91,7 @@ public class AccountsController implements Serializable {
                 .put("account", currentAccount);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
                 .put("currentList", currentAccount.getCurrentList());
+                .put("account", accounts.findByUsername(account.getUsername()));
     }
 
     public static Account getCurrentUser() {

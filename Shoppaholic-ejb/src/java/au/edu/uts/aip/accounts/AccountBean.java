@@ -32,6 +32,14 @@ public class AccountBean {
         return query.getResultList().get(0);
     }
     
+    public Account findByUsername(String username) {
+
+        TypedQuery<Account> query = em.createQuery("select a from Account a "
+                + "where a.username = :username ", Account.class);
+        query.setParameter("username", username);
+        return query.getResultList().get(0);
+    }
+    
     public void create(Account account){
         Logger log = Logger.getLogger(this.getClass().getName());
         log.info("Saving account to database");
