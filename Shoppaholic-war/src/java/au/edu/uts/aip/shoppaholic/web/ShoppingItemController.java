@@ -7,6 +7,9 @@ package au.edu.uts.aip.shoppaholic.web;
 
 import au.edu.uts.aip.shoppingList.*;
 
+import au.edu.uts.aip.accounts.Account;
+import au.edu.uts.aip.shoppingList.ShoppingBean;
+import au.edu.uts.aip.shoppingList.ShoppingItem;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;

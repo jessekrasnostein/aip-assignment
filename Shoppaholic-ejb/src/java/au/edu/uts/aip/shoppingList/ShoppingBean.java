@@ -15,6 +15,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -238,6 +239,32 @@ public class ShoppingBean {
         //query.setParameter("lastName", lastName);
         
         return items;
+    public List<ShoppingItem> getCurrentList(String email) {
+        // get active list id
+        Logger log = Logger.getLogger(this.getClass().getName());
+        int count = accountBean.findByEmail(email).getShoppingLists().size();
+        log.info("List size: " + count);
+        if (count > 0) {
+            int id = accountBean.findByEmail(email).getShoppingLists().get(0).getId();
+            String name = accountBean.findByEmail(email).getShoppingLists().get(0).getName();
+
+            
+            log.info("List ID: " + id + " Name: " + name);
+
+            List<ShoppingItem> items = accountBean.findByEmail(email).getShoppingLists().get(0).getShoppingListItems();
+
+            for (ShoppingItem i : items) {
+                log.info(i.toString());
+            }
+
+        }
+
+        // get items from the list whose id is...
+        TypedQuery<ShoppingItem> query = em.createNamedQuery(
+                "findAll", ShoppingItem.class
+        );
+        //query.setParameter("lastName", lastName);
+        return query.getResultList();
     }
 
 }
