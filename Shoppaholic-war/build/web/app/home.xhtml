@@ -79,6 +79,7 @@
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
+<<<<<<< HEAD
                                     Actions
                                 </f:facet>
                                 <h:form> 
@@ -87,16 +88,35 @@
                                 <h:link value="Edit" outcome="editlist">
                                     <f:param name="index" value="#{list.id}"/>
                                 </h:link> | 
+=======
+                                    Edit
+                                </f:facet>
+                                <h:link value="Edit" outcome="editlist">
+                                    <f:param name="index" value="#{list.id}"/>
+                                </h:link>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Delete
+                                </f:facet>
+>>>>>>> Added ability to have multiple lists per account, added currentList to session and added currentList to account.class model to maintain across sessions. requires drop tables and rebuild.
                                 <h:link value="Delete" outcome="deletelist">
                                     <f:param name="index" value="#{list.id}"/>
                                 </h:link>
                             </h:column>
+<<<<<<< HEAD
 
                         </h:dataTable>
                     </div>
 
                     <h1 class="page-header">Shopping List - <h:outputText 
                             rendered="#{not empty sessionScope.currentList.name}" value="#{sessionScope.currentList.name}"/></h1>
+=======
+                        </h:dataTable>
+                    </div>
+                    
+                    <h1 class="page-header">Shopping List - <h:outputText value="#{sessionScope.currentList.name}"/></h1>
+>>>>>>> Added ability to have multiple lists per account, added currentList to session and added currentList to account.class model to maintain across sessions. requires drop tables and rebuild.
                     <div class="table-responsive">
                         <h:dataTable styleClass="table table-striped" var="item" rendered="#{not empty shoppingItemController.list()}" value="#{shoppingItemController.list()}">
                             <h:column>

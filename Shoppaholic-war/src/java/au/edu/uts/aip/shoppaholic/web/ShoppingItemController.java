@@ -8,8 +8,7 @@ package au.edu.uts.aip.shoppaholic.web;
 import au.edu.uts.aip.shoppingList.*;
 
 import au.edu.uts.aip.accounts.Account;
-import au.edu.uts.aip.shoppingList.ShoppingBean;
-import au.edu.uts.aip.shoppingList.ShoppingItem;
+import au.edu.uts.aip.shoppingList.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
@@ -167,7 +166,32 @@ public class ShoppingItemController implements Serializable {
     public List<ShoppingList> availableLists() {
         return shoppingBean.getAvailableLists(
                 AccountsController.getCurrentUser().getEmail()
+        setCurrentList();
+        
+        return shoppingBean.getCurrentListItems(
+            AccountsController.getCurrentUser().getEmail()
         );
+    }
+    
+    public List<ShoppingList> availableLists() {
+        Logger log = Logger.getLogger(this.getClass().getName());
+        log.info("ShoppingItemController: availableLists");
+        log.info("Current User: " + AccountsController.getCurrentUser().getEmail());
+        return shoppingBean.getAvailableLists(
+            AccountsController.getCurrentUser().getEmail()
+        );
+    }
+    
+    public void setCurrentList() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                .put("currentList", shoppingBean.currentList(
+                        AccountsController.getCurrentUser().getEmail())
+                );
+    }
+
+    public static ShoppingList getCurrentList() {
+        return (ShoppingList) FacesContext.getCurrentInstance().getExternalContext()
+                .getSessionMap().get("currentList");
     }
 
     /**

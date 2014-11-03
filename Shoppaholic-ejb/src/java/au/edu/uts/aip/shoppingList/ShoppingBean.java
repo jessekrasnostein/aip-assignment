@@ -242,29 +242,37 @@ public class ShoppingBean {
     public List<ShoppingItem> getCurrentList(String email) {
         // get active list id
         Logger log = Logger.getLogger(this.getClass().getName());
-        int count = accountBean.findByEmail(email).getShoppingLists().size();
-        log.info("List size: " + count);
-        if (count > 0) {
-            int id = accountBean.findByEmail(email).getShoppingLists().get(0).getId();
-            String name = accountBean.findByEmail(email).getShoppingLists().get(0).getName();
-
-            
-            log.info("List ID: " + id + " Name: " + name);
-
-            List<ShoppingItem> items = accountBean.findByEmail(email).getShoppingLists().get(0).getShoppingListItems();
-
-            for (ShoppingItem i : items) {
-                log.info(i.toString());
-            }
-
-        }
+        List<ShoppingItem> items = new ArrayList<>();
+        
+        try {
+            items = accountBean.findByEmail(email).getCurrentList().getShoppingListItems();
+        } catch (NullPointerException np) {
+            log.severe(np.getMessage());
+        } 
+//        int count = accountBean.findByEmail(email).getShoppingLists().size();
+//        log.info("List size: " + count);
+//        if (count > 0) {
+//            int id = accountBean.findByEmail(email).getShoppingLists().get(0).getId();
+//            String name = accountBean.findByEmail(email).getShoppingLists().get(0).getName();
+//
+//            
+//            log.info("List ID: " + id + " Name: " + name);
+//
+//            items = accountBean.findByEmail(email).getShoppingLists().get(0).getShoppingListItems();
+//
+//            for (ShoppingItem i : items) {
+//                log.info(i.toString());
+//            }
+//
+//        }
 
         // get items from the list whose id is...
-        TypedQuery<ShoppingItem> query = em.createNamedQuery(
-                "findAll", ShoppingItem.class
-        );
+//        TypedQuery<ShoppingItem> query = em.createNamedQuery(
+//                "findAll", ShoppingItem.class
+//        );
         //query.setParameter("lastName", lastName);
-        return query.getResultList();
+        
+        return items;
     }
 
 }
