@@ -6,6 +6,7 @@
 
 package au.edu.uts.aip.shoppaholic.web;
 
+import au.edu.uts.aip.accounts.Account;
 import au.edu.uts.aip.shoppingList.ShoppingBean;
 import au.edu.uts.aip.shoppingList.ShoppingItem;
 import java.io.Serializable;
@@ -24,6 +25,8 @@ public class ShoppingItemController implements Serializable {
 
     private ShoppingItem item = new ShoppingItem();
     
+    
+    
     @EJB
     private ShoppingBean shoppingBean;
     
@@ -36,7 +39,8 @@ public class ShoppingItemController implements Serializable {
     }
     
     public void addSampleData() {
-        shoppingBean.addSampleData();
+        shoppingBean.addSampleData(
+                AccountsController.getCurrentUser().getEmail());
     }
     
 //    /**
@@ -83,7 +87,10 @@ public class ShoppingItemController implements Serializable {
     public List<ShoppingItem> list() {
         Logger log = Logger.getLogger(this.getClass().getName());
         log.info("ShoppingItemController: list");
-        return shoppingBean.findAll();
+        log.info("Current User: " + AccountsController.getCurrentUser().getEmail());
+        return shoppingBean.getCurrentList(
+            AccountsController.getCurrentUser().getEmail()
+        );
     }
 
 }

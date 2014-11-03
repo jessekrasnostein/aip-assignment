@@ -33,7 +33,8 @@ public class AccountBean {
     public void create(Account account) {
         Logger log = Logger.getLogger(this.getClass().getName());
         log.info("Saving account to database");
-        
         em.persist(account);
+      
+        
     }
 }

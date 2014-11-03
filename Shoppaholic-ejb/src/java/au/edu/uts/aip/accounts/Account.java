@@ -19,19 +19,20 @@ import javax.validation.constraints.Size;
  *
  * @author jessekras
  */
-@Entity
+@Entity(name = "Account")
 //@NamedQueries({
 //    @NamedQuery(
 //            name = "Account.findByEmail",
 //            query = "select a from Account a"
-//                    + "where a.id = :id"
+//                    + "where a.acctId = :acctId"
 //    ),
 //})
 public class Account implements Serializable {
     
     @Id
-    @GeneratedValue
-    private int id;
+    @Column(name = "ACCT_ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int acctId;
     
     @NotNull(message = "Username is required")
     @Size(min = 3, message = "Username must be longer than 3 chars")
@@ -57,7 +58,8 @@ public class Account implements Serializable {
     @NotNull(message = "Email is required")
     @Size(min = 1, message = "Email is required")
     private String email;
-    
+   
+    @OneToMany(mappedBy="account", targetEntity = ShoppingList.class)
     private List<ShoppingList> shoppingLists = new ArrayList<>();
     
     @Enumerated(EnumType.STRING)
@@ -89,12 +91,12 @@ public class Account implements Serializable {
     
     
     
-    public int getId() {
-        return id;
+    public int getAcctId() {
+        return acctId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAcctId(int acctId) {
+        this.acctId = acctId;
     }
 
     public String getUsername() {

@@ -69,6 +69,7 @@ public class AccountsController implements Serializable {
                 context.getExternalContext().getRequest();
         try {
             accounts.create(account);
+            
         } catch (EJBException e) {
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return null;
