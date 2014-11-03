@@ -21,7 +21,7 @@
                     <div class="account-wall">
                         <h:graphicImage class="profile-img" value="/resources/img/photo.png"/>
                         <h:form class="form-signin">
-                            <h:messages class="message" infoClass="alert-success" errorClass="alert-danger" globalOnly="true" layout="list" />
+                            <h:messages/>
                             <h:inputText class="form-control" id="username" value="#{accountsController.account.username}"/>
                             <p:watermark for="username" value="Username" />
                             <h:inputSecret class="form-control" id="password" value="#{accountsController.account.password}"/>
