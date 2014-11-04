@@ -23,6 +23,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 /**
  * ShoppingItemController is responsible for managing all functionality around
@@ -112,7 +113,20 @@ public class ShoppingItemController implements Serializable {
     }
 
     public String deleteList() {
-        shoppingBean.deleteShoppingList(list);
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) 
+            context.getExternalContext().getRequest();
+        
+        try {
+            shoppingBean.deleteShoppingList(list);
+        } catch (ConstraintViolationException e ) {
+            context.addMessage(null, new FacesMessage(e.getMessage()));
+            return null;
+        } catch (EJBException e) {
+            context.addMessage(null, new FacesMessage(e.getMessage()));
+            return null;
+        }
+        
         return "home?faces-redirect=true";
     }
     
@@ -120,15 +134,23 @@ public class ShoppingItemController implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) 
             context.getExternalContext().getRequest();
-
+            
         try {
             shoppingBean.createNewShoppingList(AccountsController
-                .getCurrentUser().getEmail(), list.getName(), list, AccountsController.getCurrentUser());
+                .getCurrentUser().getEmail(), list.getName(), list, 
+                AccountsController.getCurrentUser());
+//            setCurrent(AccountsController.getCurrentUser().getShoppingLists()
+//                    .get(AccountsController.getCurrentUser()
+//                            .getShoppingLists().size()-1).getId());
+//            System.out.println("new list name: " + AccountsController.getCurrentUser().getShoppingLists()
+//                    .get(AccountsController.getCurrentUser()
+//                            .getShoppingLists().size()-1).getName());
         } catch (EJBException e) {
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return null;
-        }
+        } 
         
+        setCurrentListInSession();
         return "home?faces-redirect=true";
     }
 

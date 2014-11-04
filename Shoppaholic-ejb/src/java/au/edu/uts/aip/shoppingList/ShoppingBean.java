@@ -22,6 +22,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.validation.ConstraintViolationException;
 
 /**
  *
@@ -109,8 +110,9 @@ public class ShoppingBean {
 //        
 //         em.persist();
     }
-    
-    public void deleteShoppingList(ShoppingList list) {
+
+    public void deleteShoppingList(ShoppingList list) 
+            throws ConstraintViolationException, EJBException {
         // Get an equivalent managed object
         ShoppingList managed = em.find(ShoppingList.class, list.getId());
         
