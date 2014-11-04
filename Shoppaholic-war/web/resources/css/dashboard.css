@@ -37,6 +37,13 @@ body {
 .createListBox {
     margin-bottom: 30px;
 }
+.formBox {
+    width: 50%;
+    margin: 0 auto;
+}
+.listName {
+    padding: 0px;
+}
 
 /*
  * Global add-ons

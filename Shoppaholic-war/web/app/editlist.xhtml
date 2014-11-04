@@ -8,7 +8,7 @@
         <f:viewAction action="#{shoppingItemController.loadList(param.index)}"/>
     </f:metadata>
     <h:head>
-        <title>Family Shopping App</title>
+        <title>Edit - Shoppaholic App</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="description" content=""/>
@@ -53,32 +53,16 @@
         
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
-                    <ul class="nav nav-sidebar">
-                        <li><a href="#">Home</a></li>
-                        <li class="active"><a href="#">Item</a></li>
-                        <li><a href="#" >View by store</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="col-sm-12 col-md-12 main formBox">
                     <div class="container-fluid">
-                    <h1 class="page-header">Update List <h:outputText value="#{shoppingItemController.list.name}" /></h1>
-                    <h:form class="form-horizontal">
-                        <div class="form-group">
-                            <label for="itemName1" class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-10">
-                                <h:inputText class="form-control" value="#{shoppingItemController.list.name}" pt:placeholder="#{shoppingItemController.list.name}"  />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <h:inputHidden value="#{shoppingItemController.list.id}"/>
-                                <h:commandButton class="btn btn-primary" value="Save changes" action="#{shoppingItemController.updateList}"/>
-                            </div>
-                        </div>
-                    </h:form>
+                        <h1 class="page-header">Edit: <h:outputText value="#{shoppingItemController.list.name}" /></h1>
+                        <h:form>
+                            <label for="itemName1" class="control-label listName">Shopping List Name</label>
+                            <h:inputText class="form-control createListBox " value="#{shoppingItemController.list.name}" pt:placeholder="#{shoppingItemController.list.name}"  />
+                            <h:inputHidden value="#{shoppingItemController.list.id}"/>
+                            <h:commandButton class="btn btn-primary btn-lg" value="Save changes" action="#{shoppingItemController.updateList}"/>
+                        </h:form>
                     </div>
-
                 </div>
             </div>
         </div>
