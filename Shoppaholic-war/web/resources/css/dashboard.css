@@ -31,6 +31,10 @@ body {
 .show-below {
     width: 5%;
 }
+.buttonsBox .btn-danger{
+    margin: 0px;
+    margin-right: 15px;
+}
 .idColumn {
     width: 10%;
 }

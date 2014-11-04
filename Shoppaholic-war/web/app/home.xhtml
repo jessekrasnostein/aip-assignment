@@ -69,12 +69,12 @@
                                 <f:facet name="header">
                                     Actions
                                 </f:facet>
-                                <h:link class="btn btn-info" value="Edit" outcome="editlist">
-                                    <f:param name="index" value="#{list.id}"/>
-                                </h:link>
-                                <h:link class="btn btn-danger" value="Delete" outcome="deletelist">
-                                    <f:param name="index" value="#{list.id}"/>
-                                </h:link>
+                                <p><h:link class="btn btn-info" value="Edit" outcome="editlist">
+                                        <f:param name="index" value="#{list.id}"/>
+                                    </h:link>
+                                    <h:link class="btn btn-danger" value="Delete" outcome="deletelist">
+                                        <f:param name="index" value="#{list.id}"/>
+                                    </h:link></p>
                             </h:column>
 
                         </h:dataTable>
