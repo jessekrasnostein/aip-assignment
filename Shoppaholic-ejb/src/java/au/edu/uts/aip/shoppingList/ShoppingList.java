@@ -18,7 +18,7 @@ public class ShoppingList implements Serializable {
 
     private String name;
 
-    @OneToMany(mappedBy = "shoppingList")
+    @OneToMany(mappedBy = "shoppingList", fetch=FetchType.EAGER)
     private List<ShoppingItem> items = new ArrayList<>();
 
     @Column(name = "ACCT_ID")

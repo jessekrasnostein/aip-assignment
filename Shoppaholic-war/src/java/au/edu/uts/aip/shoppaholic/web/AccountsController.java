@@ -8,6 +8,7 @@ package au.edu.uts.aip.shoppaholic.web;
 import au.edu.uts.aip.accounts.Account;
 import au.edu.uts.aip.accounts.AccountBean;
 import java.io.Serializable;
+import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;

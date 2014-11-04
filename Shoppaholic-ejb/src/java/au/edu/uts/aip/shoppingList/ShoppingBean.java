@@ -11,7 +11,10 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,8 +36,8 @@ public class ShoppingBean {
     private AccountBean accountBean;
 
     public void addSampleData(String email) {
-        ShoppingList weeklyList = new ShoppingList();
-        weeklyList.setName("Weekly Shopping List");
+        ShoppingList weeklyList = new ShoppingList(); 
+        weeklyList.setName("Weekly Shopping List"); 
 
         ShoppingItem item1 = new ShoppingItem();
         item1.setAddedby("Jesse");
@@ -52,22 +55,104 @@ public class ShoppingBean {
         
         weeklyList.getShoppingListItems().add(item1);
         weeklyList.getShoppingListItems().add(item2);
-        weeklyList.setAcctId(account.getAcctId());
+        weeklyList.setAcctId(account.getAcctId());   
 
         
-        account.getShoppingLists().add(weeklyList);
-        account.setCurrentList(weeklyList);
+        account.getShoppingLists().add(weeklyList);  
+        account.setCurrentList(weeklyList);          
         
         item1.setShoppingList(weeklyList);
         item2.setShoppingList(weeklyList);
         
-        em.persist(account);
-        em.persist(weeklyList);
+        em.persist(account);                           
+        em.persist(weeklyList);                        
         em.persist(item1);
         em.persist(item2);
 
     }
-
+    
+    /**
+     * Create a new shopping list for the current user
+     * @param accountEmail
+     * @param listName 
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void createNewShoppingList(String accountEmail, String listName, 
+            ShoppingList shoppingList, Account account_um) throws EJBException {
+        account = accountBean.findByEmail(accountEmail);
+        ShoppingList newList = new ShoppingList();
+        
+        newList.setName(listName);
+        newList.setAcctId(account.getAcctId());
+        
+        account.getShoppingLists().add(newList);
+        em.persist(newList);
+        
+        account.setCurrentList(newList);
+        em.persist(account);
+        
+//      
+//        ShoppingList unmanagedList = new ShoppingList();
+//        Account managed = em.find(Account.class, account_um.getAcctId());
+//        
+//        unmanagedList.setAccount(managed);
+//        unmanagedList.setName(listName);
+//        
+//        managed.getShoppingLists().add(unmanagedList);
+//        
+//        if (managed != account_um) {
+//            account_um.getShoppingLists().add(unmanagedList);
+//        }
+//        
+//         em.persist();
+    }
+    
+    public void deleteShoppingList(ShoppingList list) {
+        // Get an equivalent managed object
+        ShoppingList managed = em.find(ShoppingList.class, list.getId());
+        
+        // We need to keep the bi-directional relationships up-to-date
+        managed.getAccount().getShoppingLists().remove(managed);
+        
+        // Update the relationship on the Person entity (if it is a detached entity)
+        if (managed != list) {
+            list.getAccount().getShoppingLists().remove(list);
+        }
+        
+        em.remove(managed);
+    }
+    
+    public void clearCache() {
+        em.getEntityManagerFactory().getCache().evictAll();
+    }
+    
+    //@TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void updateShoppingList(ShoppingList list) {
+        //account = accountBean.findByEmail(accountEmail);
+//        int listId = list.getId();
+//        int index = -1;
+//        
+//        List<ShoppingList> lists = account.getShoppingLists();
+//        
+//        for (ShoppingList sl: lists) {
+//            if (list.getId() == listId) {
+//                index = lists.indexOf(sl);
+//            }
+//        }
+//        if (index>-1) {
+//            account.getShoppingLists().remove(index);
+//        }
+//        account.getShoppingLists().add(list);
+        //list.setAcctId(account.getAcctId());
+       // ShoppingList temp = em.find(ShoppingList.class, list.getId());
+        //temp.setName(list.getName());
+        em.merge(list); 
+       
+       // em.persist(account);
+    }
+    
+    
+    
     /**
      *
      * Return all items in the shopping item table
@@ -87,7 +172,7 @@ public class ShoppingBean {
 
     public void create(ShoppingList list, ShoppingItem shoppingItem) {
         list.getShoppingListItems().add(shoppingItem);
-        em.merge(list);
+        em.persist(list);
         em.persist(shoppingItem);
     }
 
@@ -102,6 +187,17 @@ public class ShoppingBean {
         Logger log = Logger.getLogger(this.getClass().getName());
         log.info("Shopping bean current list: " + accountBean.findByEmail(email).getCurrentList().getName());
         return accountBean.findByEmail(email).getCurrentList();
+    }
+    
+    public ShoppingList getListById(Account account, int listId) {
+        List<ShoppingList> lists = account.getShoppingLists();
+        
+        for (ShoppingList list: lists) {
+            if (list.getId() == listId) {
+                return list;
+            }
+        }
+        return new ShoppingList();
     }
     /**
      * *

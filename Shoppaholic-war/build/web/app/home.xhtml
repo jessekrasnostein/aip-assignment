@@ -50,7 +50,7 @@
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
                         <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#">Item</a></li>
+                        <li><h:link value="New List" outcome="createlist"/></li>
                         <li><a href="#" >View by store</a></li>
                     </ul>
                 </div>
@@ -58,7 +58,10 @@
                     <h:form>
                         <h:commandButton value="Add Sample Data" action="#{shoppingItemController.addSampleData()}"/>
                     </h:form> 
-                    
+                    <h:form>
+                        <h:commandButton value="Clear Cache" action="#{shoppingItemController.clearCache}"/>
+                    </h:form> 
+
                     <h1 class="page-header">Available Lists</h1>
                     <div class="table-responsive">
                         <h:dataTable styleClass="table table-striped" var="list"  value="#{shoppingItemController.availableLists()}">
@@ -79,19 +82,19 @@
                                     Actions
                                 </f:facet>
                                 <h:form> 
-                                <h:commandLink value="Make Current" action="#{shoppingItemController.setCurrent(list.id)}"/>
-                                </h:form>
+                                    <h:commandLink value="Make Current" action="#{shoppingItemController.setCurrent(list.id)}"/>
+                                </h:form> | 
                                 <h:link value="Edit" outcome="editlist">
                                     <f:param name="index" value="#{list.id}"/>
-                                </h:link>
+                                </h:link> | 
                                 <h:link value="Delete" outcome="deletelist">
                                     <f:param name="index" value="#{list.id}"/>
                                 </h:link>
                             </h:column>
-                            
+
                         </h:dataTable>
                     </div>
-                    
+
                     <h1 class="page-header">Shopping List - <h:outputText 
                             rendered="#{not empty sessionScope.currentList.name}" value="#{sessionScope.currentList.name}"/></h1>
                     <div class="table-responsive">

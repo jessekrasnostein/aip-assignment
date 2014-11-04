@@ -60,7 +60,8 @@ public class Account implements Serializable {
     @Size(min = 1, message = "Email is required")
     private String email;
    
-    @OneToMany(mappedBy="account", targetEntity = ShoppingList.class)
+    @OneToMany(mappedBy="account", targetEntity = ShoppingList.class, 
+            fetch=FetchType.EAGER)
     private List<ShoppingList> shoppingLists = new ArrayList<>();
     
     @Enumerated(EnumType.STRING)
