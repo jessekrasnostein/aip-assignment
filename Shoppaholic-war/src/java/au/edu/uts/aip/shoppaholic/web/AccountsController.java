@@ -80,8 +80,11 @@ public class AccountsController implements Serializable {
     
     // Set user in the session. 
     public void setCurrentUser() {
+        Account currentAccount = accounts.findByEmail(account.getEmail());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-                .put("account", accounts.findByEmail(account.getEmail()));
+                .put("account", currentAccount);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                .put("currentList", currentAccount.getCurrentList());
     }
 
     public static Account getCurrentUser() {

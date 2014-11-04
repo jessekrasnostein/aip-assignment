@@ -89,8 +89,7 @@ public class ShoppingItemController implements Serializable {
         Logger log = Logger.getLogger(this.getClass().getName());
         log.info("ShoppingItemController: list");
         log.info("Current User: " + AccountsController.getCurrentUser().getEmail());
-        setCurrentList();
-        
+
         return shoppingBean.getCurrentListItems(
             AccountsController.getCurrentUser().getEmail()
         );
