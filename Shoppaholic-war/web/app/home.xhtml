@@ -42,8 +42,26 @@
         </div>
         <div class="container-fluid">
             <div class="row">
+<<<<<<< HEAD
                 <div class="col-sm-12 col-md-12 main">
                     
+=======
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><h:link value="New List" outcome="createlist"/></li>
+                        <li><a href="#" >View by store</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <h:form>
+                        <h:commandButton value="Add Sample Data" action="#{shoppingItemController.addSampleData()}"/>
+                    </h:form> 
+                    <h:form>
+                        <h:commandButton value="Clear Cache" action="#{shoppingItemController.clearCache}"/>
+                    </h:form> 
+
+>>>>>>> Cleaned up Headers
                     <h1 class="page-header">Your Shopping Lists</h1>
                     <div class="table-responsive">
                         
@@ -56,9 +74,9 @@
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
-                                    List Name
+                                    List Id
                                 </f:facet>
-                                <h:outputText value="#{list.name}"/>
+                                <h:outputText value="#{list.id}"/>
                             </h:column>
                             <h:column headerClass="show-below" >
                                 <h:form> 
@@ -67,6 +85,7 @@
                             </h:column>
                             <h:column headerClass="actions">
                                 <f:facet name="header">
+<<<<<<< HEAD
                                     Actions
                                 </f:facet>
                                 <p><h:link class="btn btn-info" value="Edit" outcome="editlist">
@@ -90,14 +109,27 @@
                                     Edit
 =======
                             <h:column>
+=======
+                                    List Name
+                                </f:facet>
+                                <h:outputText value="#{list.name}"/>
+                            </h:column>
+                            <h:column headerClass="actions">
+>>>>>>> Cleaned up Headers
                                 <f:facet name="header">
                                     Actions
 >>>>>>> Commenting added to ShoppingItemController
                                 </f:facet>
                                 <h:form> 
+<<<<<<< HEAD
                                 <h:commandLink value="Make Current" action="#{shoppingItemController.setCurrent(list.id)}"/>
                                 </h:form>
                                 <h:link value="Edit" outcome="editlist">
+=======
+                                    <h:commandLink value="Show Below" class="btn btn-primary" action="#{shoppingItemController.setCurrent(list.id)}"/>
+                                </h:form>
+                                <h:link class="btn btn-primary" value="Edit" outcome="editlist">
+>>>>>>> Cleaned up Headers
                                     <f:param name="index" value="#{list.id}"/>
                                 </h:link>
                                 <h:link value="Delete" outcome="deletelist">

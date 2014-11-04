@@ -47,6 +47,10 @@ body {
 }
 .listName {
     padding: 0px;
+    width: 20%;
+}
+.actions .btn {
+    margin-right: 10px;
 }
 
 /*
