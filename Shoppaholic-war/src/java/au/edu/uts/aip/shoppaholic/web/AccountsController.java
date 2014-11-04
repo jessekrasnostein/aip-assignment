@@ -47,7 +47,7 @@ public class AccountsController implements Serializable {
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return null;
         }
-        return "/app/home";
+        return "/app/home?faces-redirect=true";
     }
 
     public String logout() {
@@ -61,7 +61,7 @@ public class AccountsController implements Serializable {
             context.addMessage(null, 
                     new FacesMessage(e.getCause() + ": " + e.getMessage()));
         }
-        return "/login";
+        return "/login?faces-redirect=true";
     }
 
     public String register() {
@@ -76,7 +76,7 @@ public class AccountsController implements Serializable {
             return null;
         }
         
-        return "login";
+        return "login?faces-redirect=true";
     }
     
     // Set user in the session. 
