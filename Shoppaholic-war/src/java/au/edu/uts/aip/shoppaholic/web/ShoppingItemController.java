@@ -71,6 +71,7 @@ public class ShoppingItemController implements Serializable {
      * @return List of ShoppingItems
      */
     public List<ShoppingItem> list() {
+    public List<ShoppingItem> curList() {
         return shoppingBean.getCurrentListItems(
                 AccountsController.getCurrentUser().getEmail()
         );
@@ -78,6 +79,7 @@ public class ShoppingItemController implements Serializable {
 
     public String updateList() {
         shoppingBean.updateShoppingList(list);
+        setCurrent(list.getId());
         return "home?faces-redirect=true";
     }
     

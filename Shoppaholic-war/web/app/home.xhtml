@@ -164,7 +164,7 @@
                             rendered="#{not empty sessionScope.currentList.name}" value="#{sessionScope.currentList.name}"/></h1>
 >>>>>>> Commenting added to ShoppingItemController
                     <div class="table-responsive">
-                        <h:dataTable styleClass="table table-striped" var="item" rendered="#{not empty shoppingItemController.list()}" value="#{shoppingItemController.list()}">
+                        <h:dataTable styleClass="table table-striped" var="item" rendered="#{not empty shoppingItemController.curList()}" value="#{shoppingItemController.curList()}">
                             <h:column>
                                 <f:facet name="header">
                                     Item Name
