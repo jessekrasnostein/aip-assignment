@@ -103,8 +103,13 @@
                         </h:dataTable>
                     </div>
                     
+<<<<<<< HEAD
                     <h1 class="page-header">Shopping List - <h:outputText value="#{sessionScope.currentList.name}"/></h1>
 >>>>>>> Added ability to have multiple lists per account, added currentList to session and added currentList to account.class model to maintain across sessions. requires drop tables and rebuild.
+=======
+                        <h1 class="page-header">Shopping List - <h:outputText 
+                                rendered="#{not empty sessionScope.currentList.name}" value="#{sessionScope.currentList.name}"/></h1>
+>>>>>>> Set current list in session when logging in.
                     <div class="table-responsive">
                         <h:dataTable styleClass="table table-striped" var="item" rendered="#{not empty shoppingItemController.list()}" value="#{shoppingItemController.list()}">
                             <h:column>
