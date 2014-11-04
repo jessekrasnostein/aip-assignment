@@ -8,17 +8,13 @@
         <f:viewAction action="#{shoppingItemController.loadList(param.index)}"/>
     </f:metadata>
     <h:head>
+<<<<<<< HEAD:Shoppaholic-war/web/app/editlist.xhtml
         <title>Edit - Shoppaholic App</title>
+=======
+        <title>Delete Shopping List - Shoppaholic App</title>
+>>>>>>> post merge clean up. no major changes.:dist/gfdeploy/Shoppaholic/Shoppaholic-war_war/app/deletelist.xhtml
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="description" content=""/>
-        <meta name="author" content=""/>
-
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+        <meta name="viewport" content="width=device-width, initial-scale=1"/> 
     </h:head>
     <h:body>
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
@@ -55,12 +51,24 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 main formBox">
                     <div class="container-fluid">
+<<<<<<< HEAD:Shoppaholic-war/web/app/editlist.xhtml
                         <h1 class="page-header">Edit: <h:outputText value="#{shoppingItemController.list.name}" /></h1>
                         <h:form>
                             <label for="itemName1" class="control-label listName">Shopping List Name</label>
                             <h:inputText class="form-control createListBox " value="#{shoppingItemController.list.name}" pt:placeholder="#{shoppingItemController.list.name}"  />
                             <h:inputHidden value="#{shoppingItemController.list.id}"/>
                             <h:commandButton class="btn btn-primary btn-lg" value="Save changes" action="#{shoppingItemController.updateList}"/>
+=======
+                        <h1 class="page-header">Delete: <h:outputText value="#{shoppingItemController.list.name}" /></h1>
+                        <h:form>
+                            <label for="itemName1" class="control-label listName">Shopping List Name</label>
+                            <h:inputHidden value="#{shoppingItemController.list.id}"/>
+                            <p>Are you sure you want to delete #{shoppingItemController.list.name} ?</p>
+                            <p class="buttonsBox">
+                            <h:commandButton value="Delete" class="btn btn-danger btn-lg" action="#{shoppingItemController.deleteList}"/>
+                            <h:button value="Cancel" class="btn  btn-lg" outcome="home?faces-redirect=true"/>
+                            </p>
+>>>>>>> post merge clean up. no major changes.:dist/gfdeploy/Shoppaholic/Shoppaholic-war_war/app/deletelist.xhtml
                         </h:form>
                     </div>
                 </div>

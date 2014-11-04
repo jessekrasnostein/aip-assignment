@@ -51,7 +51,7 @@
                         <h:form>
                             <label for="itemName1" class="control-label listName">Shopping List Name</label>
                             <h:inputHidden value="#{shoppingItemController.list.id}"/>
-                            <p>Are you sure you want to delete #{shoppingItemController.list.name} ?
+                            <p>Are you sure you want to delete #{shoppingItemController.list.name} ?</p>
                             <p class="buttonsBox">
                             <h:commandButton value="Delete" class="btn btn-danger btn-lg" action="#{shoppingItemController.deleteList}"/>
                             <h:button value="Cancel" class="btn  btn-lg" outcome="home?faces-redirect=true"/>

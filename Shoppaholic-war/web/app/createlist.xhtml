@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <title>Family Shopping App</title>
+        <title>Edit - Shoppaholic App</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="description" content=""/>
@@ -74,8 +74,18 @@
                         </div>
                     </h:form>
                     <h:messages/>
+=======
+                <div class="col-sm-12 col-md-12 main formBox">
+                    <div class="container-fluid">
+                        <h1 class="page-header">Edit: <h:outputText value="#{shoppingItemController.list.name}" /></h1>
+                        <h:form>
+                            <label for="itemName1" class="control-label listName">Shopping List Name</label>
+                            <h:inputText class="form-control createListBox " value="#{shoppingItemController.list.name}" pt:placeholder="#{shoppingItemController.list.name}"  />
+                            <h:inputHidden value="#{shoppingItemController.list.id}"/>
+                            <h:commandButton class="btn btn-primary btn-lg" value="Save changes" action="#{shoppingItemController.updateList}"/>
+                        </h:form>
+>>>>>>> post merge clean up. no major changes.:dist/gfdeploy/Shoppaholic/Shoppaholic-war_war/app/editlist.xhtml
                     </div>
-
                 </div>
             </div>
         </div>
