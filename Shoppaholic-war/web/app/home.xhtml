@@ -76,6 +76,7 @@
                                         <f:param name="index" value="#{list.id}"/>
                                     </h:link></p>
                             </h:column>
+<<<<<<< HEAD
 
                         </h:dataTable>
                     </div>
@@ -87,22 +88,27 @@
                             rendered="#{not empty sessionScope.currentList.name}" value="#{sessionScope.currentList.name}"/></h1>
 =======
                                     Edit
+=======
+                            <h:column>
+                                <f:facet name="header">
+                                    Actions
+>>>>>>> Commenting added to ShoppingItemController
                                 </f:facet>
+                                <h:form> 
+                                <h:commandLink value="Make Current" action="#{shoppingItemController.setCurrent(list.id)}"/>
+                                </h:form>
                                 <h:link value="Edit" outcome="editlist">
                                     <f:param name="index" value="#{list.id}"/>
                                 </h:link>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    Delete
-                                </f:facet>
                                 <h:link value="Delete" outcome="deletelist">
                                     <f:param name="index" value="#{list.id}"/>
                                 </h:link>
                             </h:column>
+                            
                         </h:dataTable>
                     </div>
                     
+<<<<<<< HEAD
 <<<<<<< HEAD
                     <h1 class="page-header">Shopping List - <h:outputText value="#{sessionScope.currentList.name}"/></h1>
 >>>>>>> Added ability to have multiple lists per account, added currentList to session and added currentList to account.class model to maintain across sessions. requires drop tables and rebuild.
@@ -110,6 +116,10 @@
                         <h1 class="page-header">Shopping List - <h:outputText 
                                 rendered="#{not empty sessionScope.currentList.name}" value="#{sessionScope.currentList.name}"/></h1>
 >>>>>>> Set current list in session when logging in.
+=======
+                    <h1 class="page-header">Shopping List - <h:outputText 
+                            rendered="#{not empty sessionScope.currentList.name}" value="#{sessionScope.currentList.name}"/></h1>
+>>>>>>> Commenting added to ShoppingItemController
                     <div class="table-responsive">
                         <h:dataTable styleClass="table table-striped" var="item" rendered="#{not empty shoppingItemController.list()}" value="#{shoppingItemController.list()}">
                             <h:column>
