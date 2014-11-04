@@ -6,26 +6,26 @@
 
 package au.edu.uts.aip.shoppaholic.web;
 
-import au.edu.uts.aip.accounts.Account;
 import au.edu.uts.aip.shoppingList.*;
+
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
+
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 /**
- *
+ * ShoppingItemController is responsible for managing all functionality 
+ * around shopping items and lists.
  * @author jessekras
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class ShoppingItemController implements Serializable {
 
-    private ShoppingItem item = new ShoppingItem();
-    
-    
+    private ShoppingItem item = new ShoppingItem();    
     
     @EJB
     private ShoppingBean shoppingBean;
@@ -83,35 +83,61 @@ public class ShoppingItemController implements Serializable {
 //    
     /**
      * Retrieve entire shopping list
-     * @return ArrayList of ShoppingItem'
+     * @return List of ShoppingItems
      */
     public List<ShoppingItem> list() {
-        Logger log = Logger.getLogger(this.getClass().getName());
-        log.info("ShoppingItemController: list");
-        log.info("Current User: " + AccountsController.getCurrentUser().getEmail());
-
         return shoppingBean.getCurrentListItems(
             AccountsController.getCurrentUser().getEmail()
         );
     }
     
+    
+    /**
+     * Retrieve available shopping lists for current user
+     * @return Lists of ShoppingLists
+     */
     public List<ShoppingList> availableLists() {
-        Logger log = Logger.getLogger(this.getClass().getName());
-        log.info("ShoppingItemController: availableLists");
-        log.info("Current User: " + AccountsController.getCurrentUser().getEmail());
         return shoppingBean.getAvailableLists(
             AccountsController.getCurrentUser().getEmail()
         );
     }
     
-    public void setCurrentList() {
+
+    /**
+     * Pass in the id of a list you would like to set as the current list
+     * if you have access to it and it exists setCurrentList in Account 
+     * and add to session or else do nothing
+     * @param id 
+     */
+    public void setCurrent(int id) {
+        Logger log = Logger.getLogger(this.getClass().getName());
+        List<ShoppingList> lists = availableLists();
+        for(ShoppingList list: lists) {
+            if (list.getId() == id) {
+                AccountsController.getCurrentUser().setCurrentList(list);
+                setCurrentListInSession();
+            } else {
+                //do nothing
+                log.info("Cannot set current list as data found for user id: " 
+                        + AccountsController.getCurrentUser().getAcctId());
+            }
+        }
+    }
+    
+    /**
+     *  Add the Accounts currently active list to the session
+     */
+    public void setCurrentListInSession() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-                .put("currentList", shoppingBean.currentList(
-                        AccountsController.getCurrentUser().getEmail())
+                .put("currentList", AccountsController.getCurrentUser()
+                        .getCurrentList()
                 );
     }
 
-    public static ShoppingList getCurrentList() {
+    /**
+     * @return Check what current shopping list in Session
+     */
+    public static ShoppingList getCurrentList() {       
         return (ShoppingList) FacesContext.getCurrentInstance().getExternalContext()
                 .getSessionMap().get("currentList");
     }

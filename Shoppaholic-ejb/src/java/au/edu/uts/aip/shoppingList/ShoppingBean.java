@@ -100,7 +100,7 @@ public class ShoppingBean {
     
     public ShoppingList currentList(String email) {
         Logger log = Logger.getLogger(this.getClass().getName());
-        log.info("Current List: " + accountBean.findByEmail(email).getCurrentList());
+        log.info("Shopping bean current list: " + accountBean.findByEmail(email).getCurrentList().getName());
         return accountBean.findByEmail(email).getCurrentList();
     }
     /**
