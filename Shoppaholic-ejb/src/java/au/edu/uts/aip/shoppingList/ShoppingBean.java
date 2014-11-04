@@ -95,20 +95,6 @@ public class ShoppingBean {
         account.setCurrentList(newList);
         em.persist(account);
         
-//      
-//        ShoppingList unmanagedList = new ShoppingList();
-//        Account managed = em.find(Account.class, account_um.getAcctId());
-//        
-//        unmanagedList.setAccount(managed);
-//        unmanagedList.setName(listName);
-//        
-//        managed.getShoppingLists().add(unmanagedList);
-//        
-//        if (managed != account_um) {
-//            account_um.getShoppingLists().add(unmanagedList);
-//        }
-//        
-//         em.persist();
     }
 
     public void deleteShoppingList(ShoppingList list) 
@@ -127,33 +113,10 @@ public class ShoppingBean {
         em.remove(managed);
     }
     
-    public void clearCache() {
-        em.getEntityManagerFactory().getCache().evictAll();
-    }
-    
-    //@TransactionAttribute(TransactionAttributeType.REQUIRED)
+
+
     public void updateShoppingList(ShoppingList list) {
-        //account = accountBean.findByEmail(accountEmail);
-//        int listId = list.getId();
-//        int index = -1;
-//        
-//        List<ShoppingList> lists = account.getShoppingLists();
-//        
-//        for (ShoppingList sl: lists) {
-//            if (list.getId() == listId) {
-//                index = lists.indexOf(sl);
-//            }
-//        }
-//        if (index>-1) {
-//            account.getShoppingLists().remove(index);
-//        }
-//        account.getShoppingLists().add(list);
-        //list.setAcctId(account.getAcctId());
-       // ShoppingList temp = em.find(ShoppingList.class, list.getId());
-        //temp.setName(list.getName());
         em.merge(list); 
-       
-       // em.persist(account);
     }
     
     
@@ -204,14 +167,14 @@ public class ShoppingBean {
     }
     
     public ShoppingList getListById(Account account, int listId) {
-        List<ShoppingList> lists = account.getShoppingLists();
+        ShoppingList managed = em.find(ShoppingList.class, listId);
         
-        for (ShoppingList list: lists) {
-            if (list.getId() == listId) {
-                return list;
-            }
+        if (managed.getAcctId() == account.getAcctId()){
+            return managed;
+        } else {
+           return null;
         }
-        return new ShoppingList();
+        
     }
     /**
      * *
@@ -286,6 +249,9 @@ public class ShoppingBean {
         //query.setParameter("lastName", lastName);
         
         return items;
+    }
+        public void clearCache() {
+        em.getEntityManagerFactory().getCache().evictAll();
     }
 
 }

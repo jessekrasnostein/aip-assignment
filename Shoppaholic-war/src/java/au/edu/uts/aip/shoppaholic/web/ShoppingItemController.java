@@ -11,6 +11,7 @@ import au.edu.uts.aip.accounts.Account;
 import au.edu.uts.aip.shoppingList.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.ManagedBean;
 
@@ -41,7 +42,6 @@ public class ShoppingItemController implements Serializable {
     @EJB
     private ShoppingBean shoppingBean;
 
-
     public void addSampleData() {
         shoppingBean.addSampleData(
                 AccountsController.getCurrentUser().getEmail()
@@ -54,13 +54,13 @@ public class ShoppingItemController implements Serializable {
      * @param index is the unique id of the item to retrieve
      */
     public void loadItem(int index) {
-   //     item = shoppingBean.findOne(index);
+        //     item = shoppingBean.findOne(index);
     }
-    
+
     public String createNewShoppingItem() {
         shoppingBean.createShoppingItem(shoppingBean.currentList(
                 AccountsController.getCurrentUser().getEmail()), item);
-        
+
         item = new ShoppingItem();
         return "home?faces-redirect=true";
     }
@@ -80,38 +80,36 @@ public class ShoppingItemController implements Serializable {
         shoppingBean.updateShoppingList(list);
         return "home?faces-redirect=true";
     }
-
+    
     public String deleteList() {
         FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) 
-            context.getExternalContext().getRequest();
-        
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+
         try {
             shoppingBean.deleteShoppingList(list);
-        } catch (ConstraintViolationException e ) {
-            context.addMessage(null, new FacesMessage(e.getMessage()));
+        } catch (ConstraintViolationException e) {
+            context.addMessage(null, new FacesMessage(e.getMessage() + " Cannot delete list if it is currently in use."));
             return null;
+        } catch (EJBException e) {
+            context.addMessage(null, new FacesMessage(e.getMessage()  + " Cannot delete list if it is currently in use."));
+            return null;
+        }
+
+        return "home?faces-redirect=true";
+    }
+
+    public String createList() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+
+        try {
+            shoppingBean.createNewShoppingList(AccountsController
+                    .getCurrentUser().getEmail(), list.getName(), list,
+                    AccountsController.getCurrentUser());
         } catch (EJBException e) {
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return null;
         }
-        
-        return "home?faces-redirect=true";
-    }
-    
-    public String createList() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) 
-            context.getExternalContext().getRequest();
-            
-        try {
-            shoppingBean.createNewShoppingList(AccountsController
-                .getCurrentUser().getEmail(), list.getName(), list, 
-                AccountsController.getCurrentUser());
-        } catch (EJBException e) {
-            context.addMessage(null, new FacesMessage(e.getMessage()));
-            return null;
-        }         
         setCurrentListInSession();
         return "home?faces-redirect=true";
     }
@@ -124,8 +122,16 @@ public class ShoppingItemController implements Serializable {
     public void loadList(int listId) {
         Logger log = Logger.getLogger(this.getClass().getName());
         log.info("ShoppingItemController loadList: @param listId: " + listId + " <");
-        list = shoppingBean.getListById(
-                AccountsController.getCurrentUser(), listId);
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        
+        try {
+            list = shoppingBean.getListById(
+                    AccountsController.getCurrentUser(), listId);
+            log.log(Level.INFO, "List name is {0}", list.getName());
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage("Looks like you are trying to access something you shouldn't be. Naughty!"));
+        } 
 
     }
 
@@ -136,6 +142,7 @@ public class ShoppingItemController implements Serializable {
     public void setList(ShoppingList list) {
         this.list = list;
     }
+
     /**
      * The item that our controller will manipulate
      *
