@@ -44,7 +44,7 @@ public class AccountBean {
         Logger log = Logger.getLogger(this.getClass().getName());
         log.info("Saving account to database");
         System.out.println(account.getEmail());
-        System.out.println(account.getId());
+        System.out.println(account.getAcctId());
         System.out.println(account.getDateOfBirth());
         System.out.println(account.getFirstname());
         System.out.println(account.getLastname());

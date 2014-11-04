@@ -70,11 +70,11 @@ public class ShoppingItemController implements Serializable {
      *
      * @return List of ShoppingItems
      */
-    public List<ShoppingItem> list() {
     public List<ShoppingItem> curList() {
-        return shoppingBean.getCurrentListItems(
-                AccountsController.getCurrentUser().getEmail()
-        );
+        List<ShoppingItem> m = shoppingBean.currentList(
+                AccountsController.getCurrentUser().getEmail())
+                .getShoppingListItems();
+        return m;
     }
 
     public String updateList() {
@@ -165,19 +165,7 @@ public class ShoppingItemController implements Serializable {
      * @return Lists of ShoppingLists
      */
     public List<ShoppingList> availableLists() {
-        return shoppingBean.getAvailableLists(
-                AccountsController.getCurrentUser().getEmail()
-        setCurrentList();
-        
-        return shoppingBean.getCurrentListItems(
-            AccountsController.getCurrentUser().getEmail()
-        );
-    }
-    
-    public List<ShoppingList> availableLists() {
-        Logger log = Logger.getLogger(this.getClass().getName());
-        log.info("ShoppingItemController: availableLists");
-        log.info("Current User: " + AccountsController.getCurrentUser().getEmail());
+        //setCurrentList();
         return shoppingBean.getAvailableLists(
             AccountsController.getCurrentUser().getEmail()
         );
@@ -188,11 +176,6 @@ public class ShoppingItemController implements Serializable {
                 .put("currentList", shoppingBean.currentList(
                         AccountsController.getCurrentUser().getEmail())
                 );
-    }
-
-    public static ShoppingList getCurrentList() {
-        return (ShoppingList) FacesContext.getCurrentInstance().getExternalContext()
-                .getSessionMap().get("currentList");
     }
 
     /**

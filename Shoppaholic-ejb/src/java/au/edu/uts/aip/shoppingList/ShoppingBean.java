@@ -215,6 +215,8 @@ public class ShoppingBean {
         //query.setParameter("lastName", lastName);
         
         return items;
+    }
+    
     public List<ShoppingItem> getCurrentList(String email) {
         // get active list id
         Logger log = Logger.getLogger(this.getClass().getName());
