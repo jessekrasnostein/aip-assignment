@@ -175,10 +175,19 @@ public class ShoppingBean {
         return query.getResultList();
     }
 
-    public void create(ShoppingList list, ShoppingItem shoppingItem) {
-        list.getShoppingListItems().add(shoppingItem);
-        em.persist(list);
+    public void createShoppingItem(ShoppingList list, ShoppingItem shoppingItem) {
+        ShoppingList managed = em.find(ShoppingList.class, list.getId());
+        
+        shoppingItem.setShoppingList(managed);
+        
+        managed.getShoppingListItems().add(shoppingItem);
+        
+        if (list != managed) {
+            list.getShoppingListItems().add(shoppingItem);
+        }
+        
         em.persist(shoppingItem);
+        
     }
 
     

@@ -41,20 +41,11 @@ public class ShoppingItemController implements Serializable {
     @EJB
     private ShoppingBean shoppingBean;
 
-    /**
-     * The item that our controller will manipulate
-     *
-     * @return a ShoppingItem
-     */
-    public ShoppingItem getItem() {
-        return item;
-    }
 
     public void addSampleData() {
         shoppingBean.addSampleData(
                 AccountsController.getCurrentUser().getEmail()
         );
-
     }
 
     /**
@@ -63,38 +54,16 @@ public class ShoppingItemController implements Serializable {
      * @param index is the unique id of the item to retrieve
      */
     public void loadItem(int index) {
-        //item = shoppingBean.findOne(index);
+   //     item = shoppingBean.findOne(index);
     }
-//    
-//    /**
-//     * Save current item as new line in database
-//     * @return a redirect to view the whole shopping list
-//     */
-//    public String saveAsNew() {
-//        //Create in database class
-//        ShoppingItemDAO.create(item);
-//        return "home?faces-redirect=true";
-//    }
-//    
-//    /**
-//     * Update item in the database that matches current item
-//     * @return a redirect to view the whole shopping list
-//     */
-//    public String update() {
-//        //Create in database class
-//        ShoppingItemDAO.update(item);
-//        return "home?faces-redirect=true";
-//    }
-//
-//    /**
-//     * Delete item from the database that matches current item id.
-//     * @return a redirect to view the whole shopping list
-//     */
-//    public String delete() {
-//        ShoppingItemDAO.delete(item.getId());
-//        return "home?faces-redirect=true";
-//    }
-//  
+    
+    public String createNewShoppingItem() {
+        shoppingBean.createShoppingItem(shoppingBean.currentList(
+                AccountsController.getCurrentUser().getEmail()), item);
+        
+        item = new ShoppingItem();
+        return "home?faces-redirect=true";
+    }
 
     /**
      * Retrieve entire shopping list
@@ -139,17 +108,10 @@ public class ShoppingItemController implements Serializable {
             shoppingBean.createNewShoppingList(AccountsController
                 .getCurrentUser().getEmail(), list.getName(), list, 
                 AccountsController.getCurrentUser());
-//            setCurrent(AccountsController.getCurrentUser().getShoppingLists()
-//                    .get(AccountsController.getCurrentUser()
-//                            .getShoppingLists().size()-1).getId());
-//            System.out.println("new list name: " + AccountsController.getCurrentUser().getShoppingLists()
-//                    .get(AccountsController.getCurrentUser()
-//                            .getShoppingLists().size()-1).getName());
         } catch (EJBException e) {
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return null;
-        } 
-        
+        }         
         setCurrentListInSession();
         return "home?faces-redirect=true";
     }
@@ -173,6 +135,14 @@ public class ShoppingItemController implements Serializable {
 
     public void setList(ShoppingList list) {
         this.list = list;
+    }
+    /**
+     * The item that our controller will manipulate
+     *
+     * @return a ShoppingItem
+     */
+    public ShoppingItem getItem() {
+        return item;
     }
 
     public String clearCache() {

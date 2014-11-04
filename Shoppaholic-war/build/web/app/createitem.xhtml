@@ -20,7 +20,9 @@
     <h:body>
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
         <h:outputStylesheet library="css" name="dashboard.css" />
-        
+        <h:outputScript library="js" name="jquery-2.1.1.min.js" />
+        <h:outputScript library="js" name="bootstrap.min.js" />
+
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -30,16 +32,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Shoppaholic App</a>
+                    <a class="navbar-brand" href="#">Family Shopping App</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li><h:link class="new-account" outcome="home">Home</h:link></li>
-                        <li><h:link class="new-account" outcome="createlist">Create List</h:link></li>
-                    </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a><h:outputText class="new-account" value="#{sessionScope.account.firstname}" /></a></li>
-                        <li><a><h:form><h:commandButton class="new-account" value="Logout" 
+                        <li><a><h:outputText value="#{sessionScope.account.firstname}" /></a></li>
+                        <li><a><h:form><h:commandButton value="Logout" 
                                                         action="#{accountsController.logout()}"/>
                                 </h:form></a>
                         </li>
@@ -53,23 +51,42 @@
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
                         <li><h:link value="Home" outcome="home"/></li>
-                        <li class="active"><h:link value="New List" outcome="createlist"/></li>
-                        <li><h:link value="New Item" outcome="createitem"/></li>
+                        <li><h:link value="New List" outcome="createlist"/></li>
+                        <li class="active"><h:link value="New Item" outcome="createitem"/></li>
                     </ul>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                     <div class="container-fluid">
-                    <h1 class="page-header">Create New Shopping List</h1>
+                    <h1 class="page-header">Add item to shopping list: <h:outputText value="#{sessionScope.currentList.name}" /></h1>
                     <h:form class="form-horizontal">
                         <div class="form-group">
                             <label for="itemName1" class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10">
-                                <h:inputText class="form-control" value="#{shoppingItemController.list.name}" pt:placeholder="Enter list name..."  />
+                                <h:inputText class="form-control"  value="#{shoppingItemController.item.name}"   />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDesc1" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <h:inputTextarea class="form-control"  rows="2" value="#{shoppingItemController.item.description}"  />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="store1" class="col-sm-2 control-label">Store</label>
+                            <div class="col-sm-10">
+                                <h:inputText class="form-control" value="#{shoppingItemController.item.store}"  />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price1" class="col-sm-2 control-label">Price</label>
+                            <div class="col-sm-10">
+                                <h:inputText class="form-control"  value="#{shoppingItemController.item.price}"  />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <h:commandButton class="btn btn-primary" value="Save changes" action="#{shoppingItemController.createList()}"/>
+                                <h:button class="btn btn-default" value="Cancel" outcome="home?faces-redirect=true"/>
+                                <h:commandButton class="btn btn-warning" value="Save" action="#{shoppingItemController.createNewShoppingItem()}"/>
                             </div>
                         </div>
                     </h:form>
