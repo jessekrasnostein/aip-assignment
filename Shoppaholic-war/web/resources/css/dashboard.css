@@ -16,7 +16,15 @@ and open the template in the editor.
 body {
   padding-top: 50px;
 }
-
+.navbar-brand {
+    margin-right: 30px;
+}
+.actions {
+    width: 20%;
+}
+.actions .btn {
+    margin-right: 10px;
+}
 
 /*
  * Global add-ons

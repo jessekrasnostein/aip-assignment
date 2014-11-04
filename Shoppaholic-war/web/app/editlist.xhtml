@@ -23,8 +23,6 @@
     <h:body>
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
         <h:outputStylesheet library="css" name="dashboard.css" />
-        <h:outputScript library="js" name="jquery-2.1.1.min.js" />
-        <h:outputScript library="js" name="bootstrap.min.js" />
 
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
@@ -35,12 +33,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Family Shopping App</a>
+                    <a class="navbar-brand" href="#">Shoppaholic App</a>
                 </div>
                 <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><h:link class="new-account" outcome="home">Home</h:link></li>
+                        <li><h:link class="new-account" outcome="createlist">Create List</h:link></li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a><h:outputText value="#{sessionScope.account.firstname}" /></a></li>
-                        <li><a><h:form><h:commandButton value="Logout" 
+                        <li><a><h:outputText class="new-account" value="#{sessionScope.account.firstname}" /></a></li>
+                        <li><a><h:form><h:commandButton class="new-account" value="Logout" 
                                                         action="#{accountsController.logout()}"/>
                                 </h:form></a>
                         </li>

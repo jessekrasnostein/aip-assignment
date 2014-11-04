@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Family Shopping App</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -32,12 +33,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Family Shopping App</a>
+                    <a class="navbar-brand" href="#">Shoppaholic App</a>
                 </div>
                 <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><h:link class="new-account" outcome="home">Home</h:link></li>
+                        <li><h:link class="new-account" outcome="createlist">Create List</h:link></li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a><h:outputText value="#{sessionScope.account.firstname}" /></a></li>
-                        <li><a><h:form><h:commandButton value="Logout" 
+                        <li><a><h:outputText class="new-account" value="#{sessionScope.account.firstname}" /></a></li>
+                        <li><a><h:form><h:commandButton class="new-account" value="Logout" 
                                                         action="#{accountsController.logout()}"/>
                                 </h:form></a>
                         </li>
@@ -62,15 +67,10 @@
                         <h:commandButton value="Clear Cache" action="#{shoppingItemController.clearCache}"/>
                     </h:form> 
 
-                    <h1 class="page-header">Available Lists</h1>
+                    <h1 class="page-header">Your Shopping Lists</h1>
                     <div class="table-responsive">
+                        
                         <h:dataTable styleClass="table table-striped" var="list"  value="#{shoppingItemController.availableLists()}">
-                            <h:column>
-                                <f:facet name="header">
-                                    List Name
-                                </f:facet>
-                                <h:outputText value="#{list.name}"/>
-                            </h:column>
                             <h:column>
                                 <f:facet name="header">
                                     List Id
@@ -79,14 +79,20 @@
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
+                                    List Name
+                                </f:facet>
+                                <h:outputText value="#{list.name}"/>
+                            </h:column>
+                            <h:column headerClass="actions">
+                                <f:facet name="header">
                                     Actions
                                 </f:facet>
                                 <h:form> 
-                                    <h:commandLink value="Make Current" action="#{shoppingItemController.setCurrent(list.id)}"/>
-                                </h:form> | 
-                                <h:link value="Edit" outcome="editlist">
+                                    <h:commandLink value="Show Below" class="btn btn-primary" action="#{shoppingItemController.setCurrent(list.id)}"/>
+                                </h:form>
+                                <h:link class="btn btn-primary" value="Edit" outcome="editlist">
                                     <f:param name="index" value="#{list.id}"/>
-                                </h:link> | 
+                                </h:link>
                                 <h:link value="Delete" outcome="deletelist">
                                     <f:param name="index" value="#{list.id}"/>
                                 </h:link>
