@@ -49,8 +49,20 @@ body {
     padding: 0px;
     width: 20%;
 }
-.actions .btn {
-    margin-right: 10px;
+.main {
+    padding: 50px !important;
+}
+.btn-danger {
+    margin-left: 15px;
+}
+.show-below {
+    width: 5%;
+}
+.idColumn {
+    width: 10%;
+}
+.createListBox {
+    margin-bottom: 30px;
 }
 
 /*
