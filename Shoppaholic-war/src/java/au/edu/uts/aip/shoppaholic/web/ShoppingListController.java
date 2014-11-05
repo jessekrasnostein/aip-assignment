@@ -5,9 +5,10 @@
  */
 package au.edu.uts.aip.shoppaholic.web;
 
-import au.edu.uts.aip.shoppingList.*;
 
 import au.edu.uts.aip.accounts.Account;
+import au.edu.uts.aip.accounts.AccountBean;
+import au.edu.uts.aip.shoppingList.*;
 import au.edu.uts.aip.shoppingList.*;
 import java.io.Serializable;
 import java.util.*;
@@ -41,6 +42,7 @@ public class ShoppingListController implements Serializable {
 
     @EJB
     private ShoppingBean shoppingBean;
+    
 
     public void addSampleData() {
         shoppingBean.addSampleData(
@@ -58,9 +60,8 @@ public class ShoppingListController implements Serializable {
     }
 
     public String createNewShoppingItem() {
-        shoppingBean.createShoppingItem(shoppingBean.currentList(
-                AccountsController.getCurrentUser().getEmail()), item);
 
+        shoppingBean.createShoppingItem(curAccountList(), item);
         item = new ShoppingItem();
         return "viewlist?index="+list.getId();
     }
@@ -82,10 +83,26 @@ public class ShoppingListController implements Serializable {
      * @return List of ShoppingItems
      */
     public List<ShoppingItem> curList() {
-        List<ShoppingItem> m = shoppingBean.currentList(
-                AccountsController.getCurrentUser().getEmail())
-                .getShoppingListItems();
-        return m;
+//       List<ShoppingItem> m = shoppingBean.currentList(
+//                AccountsController.getCurrentUser().getEmail())
+//                .getShoppingListItems();
+        int listId = AccountsController.getCurrentUser().getCurrentList().getId();
+        Account account = AccountsController.getCurrentUser();
+        
+        return shoppingBean.getListById(account, listId).getShoppingListItems();
+    }
+    
+    public String curListName() {
+
+        return AccountsController.getCurrentUser().getCurrentList().getName();
+    }
+    
+    public int curListId() {
+        return AccountsController.getCurrentUser().getCurrentList().getId();
+    }
+    
+    public ShoppingList curAccountList(){
+        return AccountsController.getCurrentUser().getCurrentList();
     }
 
     public String updateList() {
@@ -124,7 +141,7 @@ public class ShoppingListController implements Serializable {
             return null;
         }
 
-        return "home?faces-redirect=true";
+        return null;
     }
 
     public String createList() {
@@ -153,11 +170,29 @@ public class ShoppingListController implements Serializable {
         log.info("ShoppingItemController loadList: @param listId: " + listId + " <");
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        
+        ShoppingList sList = new ShoppingList();
         try {
-            list = shoppingBean.getListById(
-                    AccountsController.getCurrentUser(), listId);
-            log.log(Level.INFO, "List name is {0}", list.getName());
+            List<ShoppingList> lists = AccountsController
+                    .getCurrentUser().getShoppingLists();
+            int index = -1;
+            for (ShoppingList l: lists) {
+                if (l.getId() == listId) {
+                    index = lists.indexOf(l);
+                }
+            }
+            if (index>-1) {
+                sList = AccountsController.getCurrentUser().getShoppingLists().get(index);
+            }
+            
+             //sList = AccountsController.getCurrentUser().getShoppingLists().indexOf(shoppingList)
+                    
+//            list = shoppingBean.getListById(
+//                    AccountsController.getCurrentUser(), listId);
+            log.log(Level.INFO, "List name is {0}", sList.getName());
+//            AccountsController.getCurrentUser().setCurrentList(list);
+//            setCurrentList();
+            setCurrent(sList.getId());
+            this.list = sList;
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage("Looks like you are trying to access something you shouldn't be. Naughty!"));
         } 
@@ -192,10 +227,9 @@ public class ShoppingListController implements Serializable {
      * @return Lists of ShoppingLists
      */
     public List<ShoppingList> availableLists() {
-        List<ShoppingList> list = shoppingBean.getAvailableLists(
-                AccountsController.getCurrentUser().getEmail()
-        );
-        return list;
+        List<ShoppingList> lists = AccountsController.getCurrentUser()
+                .getShoppingLists();
+        return lists;
     }
     
     public void setCurrentList() {
@@ -215,9 +249,10 @@ public class ShoppingListController implements Serializable {
     public void setCurrent(int id) {
         Logger log = Logger.getLogger(this.getClass().getName());
         List<ShoppingList> lists = availableLists();
-        for (ShoppingList list : lists) {
-            if (list.getId() == id) {
-                AccountsController.getCurrentUser().setCurrentList(list);
+        for (ShoppingList l : lists) {
+            if (l.getId() == id) {
+                AccountsController.getCurrentUser().setCurrentList(l);
+                //accountBean.findByEmail(null)
                 setCurrentListInSession();
             } else {
                 //do nothing

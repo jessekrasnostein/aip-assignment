@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:pt="http://java.sun.com/jsf/passthrough">
     <f:metadata>
-        <f:viewAction action="#{shoppingListController.loadItem(param.index)}"/>
+        <f:viewAction action="#{shoppingItemController.loadItem(param.index)}"/>
     </f:metadata>
     <h:head>
         <title>Family Shopping App</title>
@@ -35,7 +35,7 @@
                         <li><h:link class="new-account" outcome="createlist">Create List</h:link></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a><h:outputText class="new-account" value="#{sessionScope.shoppingItem.name}" /></a></li>
+                        <li><a><h:outputText class="new-account" value="#{sessionScope.account.firstname}" /></a></li>
                         <li><a><h:form><h:commandButton class="new-account" value="Logout" 
                                                         action="#{accountsController.logout()}"/>
                                 </h:form></a>
@@ -56,36 +56,36 @@
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                     <div class="container-fluid">
-                    <h1 class="page-header">Update Item: <h:outputText value="#{shoppingListController.item.name}" /></h1>
+                    <h1 class="page-header">Update Item: <h:outputText value="#{shoppingItemController.item.name}" /></h1>
                     <h:form class="form-horizontal">
                         <div class="form-group">
                             <label for="itemName1" class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10">
-                                <h:inputText class="form-control" value="#{shoppingListController.item.name}" pt:placeholder="#{shoppingListController.item.name}"  />
+                                <h:inputText class="form-control" value="#{shoppingItemController.item.name}" pt:placeholder="#{shoppingItemController.item.name}"  />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="itemDesc1" class="col-sm-2 control-label">Description</label>
                             <div class="col-sm-10">
-                                <h:inputTextarea class="form-control" rows="2" value="#{shoppingListController.item.description}" pt:placeholder="#{shoppingListController.item.description}" />
+                                <h:inputTextarea class="form-control" rows="2" value="#{shoppingItemController.item.description}" pt:placeholder="#{shoppingItemController.item.description}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="store1" class="col-sm-2 control-label">Store</label>
                             <div class="col-sm-10">
-                                <h:inputText class="form-control" value="#{shoppingListController.item.store}" pt:placeholder="#{shoppingListController.item.store}" />
+                                <h:inputText class="form-control" value="#{shoppingItemController.item.store}" pt:placeholder="#{shoppingItemController.item.store}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="price1" class="col-sm-2 control-label">Price</label>
                             <div class="col-sm-10">
-                                <h:inputText class="form-control" value="#{shoppingListController.item.price}" pt:placeholder="#{shoppingListController.item.priceString}" />
+                                <h:inputText class="form-control" value="#{shoppingItemController.item.price}" pt:placeholder="#{shoppingItemController.item.priceString}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <h:inputHidden value="#{shoppingListController.item.id}"/>
-                                <h:commandButton class="btn btn-primary" value="Save changes" action="#{shoppingListController.update}"/>
+                                <h:inputHidden value="#{shoppingItemController.item.id}"/>
+                                <h:commandButton class="btn btn-primary" value="Save changes" action="#{shoppingItemController.update}"/>
                             </div>
                         </div>
                     </h:form>

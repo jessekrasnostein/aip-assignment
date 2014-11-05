@@ -49,9 +49,9 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 main">
                     <div class="container-fluid">
-                        <h1 class="page-header">View: <h:outputText value="#{shoppingListController.list.name}" /></h1>
+                        <h1 class="page-header">View: <h:outputText value="#{shoppingListController.curListName()}" /></h1>
                         <div class="table-responsive">
-                            <h:dataTable styleClass="table table-striped" var="item" rendered="#{not empty shoppingListController.list()}" value="#{shoppingListController.list()}">
+                            <h:dataTable styleClass="table table-striped" var="item" rendered="#{not empty shoppingListController.curList()}" value="#{shoppingListController.curList()}">
                                 <h:column>
                                     <f:facet name="header">
                                         Item Name
@@ -93,7 +93,7 @@
                             </h:dataTable>
                         </div>
                         <h:link class="btn btn-primary btn-lg" value="Add Shopping List Item" outcome="createitem">
-                            <f:param name="index" value="#{shoppingListController.list.id}"/>
+                            <f:param name="listId" value="#{shoppingListController.curListId()}"/>
                         </h:link>
                     </div>
                 </div>
