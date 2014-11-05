@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package au.edu.uts.aip.shoppingList;
 
 import au.edu.uts.aip.accounts.Account;
@@ -24,10 +19,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolationException;
 
-/**
- *
- * @author jessekras
- */
 @Stateless
 public class ShoppingBean {
 
@@ -39,6 +30,10 @@ public class ShoppingBean {
     @EJB
     private AccountBean accountBean;
 
+    /**
+     * Add Sample Data Method to DB
+     * @param email passes in User Email to add the data
+     */
     public void addSampleData(String email) {
         ShoppingList weeklyList = new ShoppingList(); 
         weeklyList.setName("Weekly Shopping List"); 
@@ -77,8 +72,8 @@ public class ShoppingBean {
     
     /**
      * Create a new shopping list for the current user
-     * @param accountEmail
-     * @param listName 
+     * @param accountEmail Owner of the List
+     * @param listName List Name of the shopping list
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createNewShoppingList(String accountEmail, String listName, 
@@ -97,6 +92,12 @@ public class ShoppingBean {
         
     }
 
+    /**
+     * Method to delete a specific Shopping List from the DB
+     * @param list Pass in the List to be deleted
+     * @throws ConstraintViolationException Catches Exception
+     * @throws EJBException Catches Exception
+     */
     public void deleteShoppingList(ShoppingList list) 
             throws ConstraintViolationException, EJBException {
         // Get an equivalent managed object
@@ -112,79 +113,103 @@ public class ShoppingBean {
         em.remove(managed);
     }
     
+    /**
+     * Delete Specific Shopping List Item
+     * @param id pass in the id of the List Item
+     */
     public void deleteShoppingListItem(int id) {
         // Get an equivalent managed object
         ShoppingItem managed = em.find(ShoppingItem.class, id);
+        // Remove the Item
         em.remove(managed);
     }
 
-
-
+    /**
+     * Update a specific Shopping List after Changes on Edit View
+     * @param list specific list
+     */
     public void updateShoppingList(ShoppingList list) {
         em.merge(list); 
     }
     
-    
-    
     /**
-     *
      * Return all items in the shopping item table
-     *
      * Will need to be changed to a join once individual lists exist
      *
-     * @return 
-     *
+     * @return return the list of Shopping List Items
      */
     public List<ShoppingItem> findAll() {
         TypedQuery<ShoppingItem> query = em.createNamedQuery(
                 "findAll", ShoppingItem.class
         );
-        //query.setParameter("lastName", lastName);
         return query.getResultList();
     }
 
+    /**
+     * Create a shopping List Item for a specific List
+     * @param list specific list to add to
+     * @param shoppingItem shoppingItem to add to the list
+     */
     public void createShoppingItem(ShoppingList list, ShoppingItem shoppingItem) {
         ShoppingList managed = em.find(ShoppingList.class, list.getId());
         
+        // To persist a Shopping Item, we need to ensure that it is related to a 
+        // managed entity (not another detached entity)
         shoppingItem.setShoppingList(managed);
         
-        managed.getShoppingListItems().add(shoppingItem);
         
+        // Update the relationship on the Person entity (if it is a detached entity)
+        managed.getShoppingListItems().add(shoppingItem);
         if (list != managed) {
             list.getShoppingListItems().add(shoppingItem);
         }
         
+        // save changes to the contact (the contact is the "owner" of the relationship)
         em.persist(shoppingItem);
         
     }
 
-    
+    /**
+     * Return a list of Lists that a user has.
+     * @param email use email parameter
+     * @return list of shopping Lists for a specific user
+     */
     public List<ShoppingList> getAvailableLists(String email) {
         Logger log = Logger.getLogger(this.getClass().getName());
         //List<ShoppingList> lists = new ArrayList<>();
         return accountBean.findByEmail(email).getShoppingLists();
     }
     
+    /**
+     * Return list specific to a user
+     * @param email use email parameter
+     * @return current list tied to a specific user
+     */
     public ShoppingList currentList(String email) {
         Logger log = Logger.getLogger(this.getClass().getName());
         log.info("Shopping bean current list: " + accountBean.findByEmail(email).getCurrentList().getName());
         return accountBean.findByEmail(email).getCurrentList();
     }
     
+    /**
+     * Return Shopping list by Id
+     * @param account specific account owner of the list
+     * @param listId specific list id
+     * @return shopping list object
+     */
     public ShoppingList getListById(Account account, int listId) {
         ShoppingList managed = em.find(ShoppingList.class, listId);
-        
         if (managed.getAcctId() == account.getAcctId()){
             return managed;
         } else {
            return null;
         }
-        
     }
+    
     /**
-     * *
-     *
-     * @return currently active list for the user
+     * Return specific Shopping Item
+     * @param email specific user email
+     * @return List of shopping Items
      */
     public List<ShoppingItem> getCurrentListItems(String email)  {
         // get active list id
@@ -196,32 +221,14 @@ public class ShoppingBean {
         } catch (NullPointerException np) {
             log.severe(np.getMessage());
         } 
-//        int count = accountBean.findByEmail(email).getShoppingLists().size();
-//        log.info("List size: " + count);
-//        if (count > 0) {
-//            int id = accountBean.findByEmail(email).getShoppingLists().get(0).getId();
-//            String name = accountBean.findByEmail(email).getShoppingLists().get(0).getName();
-//
-//            
-//            log.info("List ID: " + id + " Name: " + name);
-//
-//            items = accountBean.findByEmail(email).getShoppingLists().get(0).getShoppingListItems();
-//
-//            for (ShoppingItem i : items) {
-//                log.info(i.toString());
-//            }
-//
-//        }
-
-        // get items from the list whose id is...
-//        TypedQuery<ShoppingItem> query = em.createNamedQuery(
-//                "findAll", ShoppingItem.class
-//        );
-        //query.setParameter("lastName", lastName);
-        
         return items;
     }
     
+    /**
+     * Get Current Shopping Items of a specific user list
+     * @param email specific user email
+     * @return return shoppingItem list
+     */
     public List<ShoppingItem> getCurrentList(String email) {
         // get active list id
         Logger log = Logger.getLogger(this.getClass().getName());
@@ -232,29 +239,6 @@ public class ShoppingBean {
         } catch (NullPointerException np) {
             log.severe(np.getMessage());
         } 
-//        int count = accountBean.findByEmail(email).getShoppingLists().size();
-//        log.info("List size: " + count);
-//        if (count > 0) {
-//            int id = accountBean.findByEmail(email).getShoppingLists().get(0).getId();
-//            String name = accountBean.findByEmail(email).getShoppingLists().get(0).getName();
-//
-//            
-//            log.info("List ID: " + id + " Name: " + name);
-//
-//            items = accountBean.findByEmail(email).getShoppingLists().get(0).getShoppingListItems();
-//
-//            for (ShoppingItem i : items) {
-//                log.info(i.toString());
-//            }
-//
-//        }
-
-        // get items from the list whose id is...
-//        TypedQuery<ShoppingItem> query = em.createNamedQuery(
-//                "findAll", ShoppingItem.class
-//        );
-        //query.setParameter("lastName", lastName);
-        
         return items;
     }
         public void clearCache() {
