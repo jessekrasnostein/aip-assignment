@@ -109,10 +109,15 @@ public class ShoppingBean {
         if (managed != list) {
             list.getAccount().getShoppingLists().remove(list);
         }
-        
         em.remove(managed);
     }
     
+    public void deleteShoppingListItem(int id) {
+        // Get an equivalent managed object
+        ShoppingItem managed = em.find(ShoppingItem.class, id);
+        em.remove(managed);
+    }
+
 
 
     public void updateShoppingList(ShoppingList list) {

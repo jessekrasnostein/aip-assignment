@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <f:metadata>
-        <f:viewAction action="#{shoppingItemController.loadList(param.index)}"/>
+        <f:viewAction action="#{shoppingListController.loadList(param.index)}"/>
     </f:metadata>
     <h:head>
         <title>Edit - Shoppaholic App</title>
@@ -49,12 +49,12 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 main formBox">
                     <div class="container-fluid">
-                        <h1 class="page-header">Edit: <h:outputText value="#{shoppingItemController.list.name}" /></h1>
+                        <h1 class="page-header">Edit: <h:outputText value="#{shoppingListController.list.name}" /></h1>
                         <h:form>
-                            <label for="itemName1" class="control-label listName">Shopping List Name</label>
-                            <h:inputText class="form-control createListBox " value="#{shoppingItemController.list.name}" pt:placeholder="#{shoppingItemController.list.name}"  />
-                            <h:inputHidden value="#{shoppingItemController.list.id}"/>
-                            <h:commandButton class="btn btn-primary btn-lg" value="Save changes" action="#{shoppingItemController.updateList}"/>
+                            <label for="itemName1" class="control-label">Shopping List Name</label>
+                            <h:inputText class="form-control createListBox " value="#{shoppingListController.list.name}" pt:placeholder="#{shoppingListController.list.name}"  />
+                            <h:inputHidden value="#{shoppingListController.list.id}"/>
+                            <h:commandButton class="btn btn-primary btn-lg" value="Save changes" action="#{shoppingListController.updateList}"/>
                         </h:form>
                     </div>
                 </div>

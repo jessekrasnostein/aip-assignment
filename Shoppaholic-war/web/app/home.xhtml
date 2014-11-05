@@ -41,14 +41,15 @@
                 </div>
             </div>
         </div>
+        
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12 col-md-12 main">
-                    
+                    <h:messages/>
                     <h1 class="page-header">Your Shopping Lists</h1>
                     <div class="table-responsive">
                         
-                        <h:dataTable styleClass="table table-striped" var="list"  value="#{shoppingItemController.availableLists()}">
+                        <h:dataTable styleClass="table table-striped" var="list"  value="#{shoppingListController.availableLists()}">
                             <h:column headerClass="idColumn">
                                 <f:facet name="header">
                                     List Id
@@ -63,90 +64,40 @@
                             </h:column>
                             <h:column headerClass="show-below" >
                                 <h:form> 
-                                    <h:commandLink value="View Below" class="btn btn-primary" action="#{shoppingItemController.setCurrent(list.id)}"/>
+                                    
                                 </h:form>
                             </h:column>
-                            <h:column headerClass="actions">
+                            <h:column >
                                 <f:facet name="header">
                                     Actions
                                 </f:facet>
-                                <p><h:link class="btn btn-info" value="Edit" outcome="editlist">
+                                <h:form><h:link class="btn btn-success" value="View" outcome="viewlist">
                                         <f:param name="index" value="#{list.id}"/>
                                     </h:link>
-                                    <h:link class="btn btn-danger" value="Delete" outcome="deletelist">
+                                    <h:link class="btn btn-info" value="Edit" outcome="editlist">
                                         <f:param name="index" value="#{list.id}"/>
-                                    </h:link></p>
+                                    </h:link>
+                                    <h:commandButton class="btn btn-danger" value="Delete" action="#{shoppingListController.deleteList(list)}"/>
+                                </h:form>
+                                    
+                                
                             </h:column>
 
                         </h:dataTable>
                     </div>
-                    <div class="createListBox">
-                        <h:link class="btn btn-primary btn-lg" value="Create New Shopping List" outcome="createlist" />
-                    </div>
-
-                    <h1 class="page-header">Shopping List - <h:outputText 
-                            rendered="#{not empty sessionScope.currentList.name}" value="#{sessionScope.currentList.name}"/></h1>
-                    <div class="table-responsive">
-                        <h:dataTable styleClass="table table-striped" var="item" rendered="#{not empty shoppingItemController.curList()}" value="#{shoppingItemController.curList()}">
-                            <h:column>
-                                <f:facet name="header">
-                                    Item Name
-                                </f:facet>
-                                <h:outputText value="#{item.name}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    Price
-                                </f:facet>
-                                $ <h:outputText value="#{item.price}"/>
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">
-                                    Description
-                                </f:facet>
-                                <h:outputText value="#{item.description}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    Store
-                                </f:facet>
-                                <h:outputText value="#{item.store}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    Added By
-                                </f:facet>
-                                <h:outputText value="#{item.addedBy}"/>
-                            </h:column>
-                            <h:column headerClass="actions">
-                                <f:facet name="header">
-                                    Actions
-                                </f:facet>
-                                <h:link class="btn btn-info" value="Edit" outcome="edititem">
-                                    <f:param name="index" value="#{item.id}"/>
-                                </h:link>
-                                <h:link class="btn btn-danger" value="Delete" outcome="deleteitem">
-                                    <f:param name="index" value="#{item.id}"/>
-                                </h:link>
-                            </h:column>
-                        </h:dataTable>
-                    </div>
+                    
                     <div>
-                        
-                        <h:button class="btn btn-primary btn-lg" value="Add new item" outcome="createitem"/>
+                        <h:link class="btn btn-primary btn-lg" value="Create New Shopping List" outcome="createlist"/>
+                        <br /><br /><br /><br />
+                        <h:form>
+                            <h:commandButton value="Add Sample Data" action="#{shoppingListController.addSampleData()}"/>
+                        </h:form> 
+                        <h:form>
+                            <h:commandButton value="Clear Cache" action="#{shoppingListController.clearCache}"/>
+                        </h:form> 
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="container-fluid">
-            <h:form>
-                <h:commandButton value="Add Sample Data" action="#{shoppingItemController.addSampleData()}"/>
-            </h:form> 
-            <h:form>
-                <h:commandButton value="Clear Cache" action="#{shoppingItemController.clearCache}"/>
-            </h:form> 
         </div>
     </h:body>
 </html>

@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:pt="http://java.sun.com/jsf/passthrough">
     <f:metadata>
-        <f:viewAction action="#{shoppingItemController.loadList(param.index)}"/>
+        <f:viewAction action="#{shoppingListController.loadList(param.index)}"/>
     </f:metadata>
     <h:head>
         <title>Delete Shopping List - Shoppaholic App</title>
@@ -47,47 +47,18 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 main formBox">
                     <div class="container-fluid">
-                        <h1 class="page-header">Delete: <h:outputText value="#{shoppingItemController.list.name}" /></h1>
+                        <h1 class="page-header">Delete: <h:outputText value="#{shoppingListController.list.name}" /></h1>
                         <h:form>
                             <label for="itemName1" class="control-label listName">Shopping List Name</label>
-                            <h:inputHidden value="#{shoppingItemController.list.id}"/>
-                            <p>Are you sure you want to delete #{shoppingItemController.list.name} ?</p>
+                            <h:inputHidden value="#{shoppingListController.list.id}"/>
+                            <p>Are you sure you want to delete #{shoppingListController.list.name} ?</p>
                             <p class="buttonsBox">
-                            <h:commandButton value="Delete" class="btn btn-danger btn-lg" action="#{shoppingItemController.deleteList}"/>
+                            <h:commandButton value="Delete" class="btn btn-danger btn-lg" action="#{shoppingListController.deleteList(list.id)}"/>
                             <h:button value="Cancel" class="btn  btn-lg" outcome="home?faces-redirect=true"/>
                             </p>
                         </h:form>
                         <h:messages/>
                     </div>
-=======
-                <div class="col-sm-3 col-md-2 sidebar">
-                    <ul class="nav nav-sidebar">
-                        <li><a href="#">Home</a></li>
-                        <li class="active"><a href="#">Item</a></li>
-                        <li><a href="#" >View by store</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <div class="container-fluid">
-                        <h1 class="page-header">Update List <h:outputText value="#{shoppingItemController.list.name}" /></h1>
-                        <h:form class="form-horizontal">
-                            <div class="form-group">
-                                <label for="itemName1" class="col-sm-2 control-label">Name</label>
-                                <div class="col-sm-10">
-                                    <h:inputText class="form-control" value="#{shoppingItemController.list.name}" pt:placeholder="#{shoppingItemController.list.name}"  />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <p>Are you sure you want to delete this user?</p>
-                                <p>
-                                    <h:commandButton value="Delete" action="#{shoppingItemController.deleteList}"/>
-                                    <h:button value="Cancel" outcome="home?faces-redirect=true"/>
-                                </p>
-                            </div>
-                        </h:form>
-                    </div>
-
->>>>>>> Very buggy list crud implementation.
                 </div>
             </div>
         </div>

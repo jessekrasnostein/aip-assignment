@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <f:metadata>
+        <f:viewAction action="#{shoppingListController.loadList(param.index)}"/>
+    </f:metadata>
+    <h:head>
+        <title>View - Shoppaholic App</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+        <h:outputScript library="js" name="jquery-2.1.1.min.js" />
+        <h:outputStylesheet library="css" name="dashboard.css" />
+        <h:outputScript library="js" name="bootstrap.min.js" />
+
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Shoppaholic App</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><h:link class="new-account" outcome="home">Home</h:link></li>
+                        <li><h:link class="new-account" outcome="createlist">Create List</h:link></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a><h:outputText class="new-account" value="#{sessionScope.account.firstname}" /></a></li>
+                        <li><a><h:form><h:commandButton class="new-account" value="Logout" 
+                                                        action="#{accountsController.logout()}"/>
+                                </h:form></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 main">
+                    <div class="container-fluid">
+                        <h1 class="page-header">View: <h:outputText value="#{shoppingListController.list.name}" /></h1>
+                        <div class="table-responsive">
+                            <h:dataTable styleClass="table table-striped" var="item" rendered="#{not empty shoppingListController.list()}" value="#{shoppingListController.list()}">
+                                <h:column>
+                                    <f:facet name="header">
+                                        Item Name
+                                    </f:facet>
+                                    <h:outputText value="#{item.name}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Price
+                                    </f:facet>
+                                    <h:outputText value="#{item.price}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        Description
+                                    </f:facet>
+                                    <h:outputText value="#{item.description}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Store
+                                    </f:facet>
+                                    <h:outputText value="#{item.store}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Added By
+                                    </f:facet>
+                                    <h:outputText value="#{item.addedBy}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Delete
+                                    </f:facet>
+                                    <h:form><h:commandButton class="btn btn-danger" value="Delete" action="#{shoppingListController.deleteItem(item.id)}"/>
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                        <h:link class="btn btn-primary btn-lg" value="Add Shopping List Item" outcome="createitem">
+                            <f:param name="index" value="#{shoppingListController.list.id}"/>
+                        </h:link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

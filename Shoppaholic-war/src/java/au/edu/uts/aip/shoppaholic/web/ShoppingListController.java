@@ -27,14 +27,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
 /**
- * ShoppingItemController is responsible for managing all functionality around
- * shopping items and lists.
+ * ShoppingListController is responsible for managing all functionality around
+ shopping items and lists.
  *
  * @author jessekras
  */
 @Named
 @SessionScoped
-public class ShoppingItemController implements Serializable {
+public class ShoppingListController implements Serializable {
 
     private ShoppingItem item = new ShoppingItem();
     private ShoppingList list = new ShoppingList();
@@ -62,7 +62,18 @@ public class ShoppingItemController implements Serializable {
                 AccountsController.getCurrentUser().getEmail()), item);
 
         item = new ShoppingItem();
-        return "home?faces-redirect=true";
+        return "viewlist?index="+list.getId();
+    }
+    
+    /**
+     * Retrieve entire shopping list
+     *
+     * @return List of ShoppingItems
+     */
+    public List<ShoppingItem> list() {
+        return shoppingBean.getCurrentListItems(
+                AccountsController.getCurrentUser().getEmail()
+        );
     }
 
     /**
@@ -83,7 +94,7 @@ public class ShoppingItemController implements Serializable {
         return "home?faces-redirect=true";
     }
     
-    public String deleteList() {
+    public String deleteList(ShoppingList list) {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
@@ -94,6 +105,22 @@ public class ShoppingItemController implements Serializable {
             return null;
         } catch (EJBException e) {
             context.addMessage(null, new FacesMessage(e.getMessage()  + " Cannot delete list if it is currently in use."));
+            return null;
+        }
+
+        return "home?faces-redirect=true";
+    }
+    
+    public String deleteItem(int id) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        try {
+            shoppingBean.deleteShoppingListItem(id);
+        } catch (ConstraintViolationException e) {
+            context.addMessage(null, new FacesMessage(e.getMessage() + " Cannot delete list if it is currently in use."));
+            return null;
+        } catch (EJBException e) {
+            context.addMessage(null, new FacesMessage(e.getMessage() + " Cannot delete list if it is currently in use."));
             return null;
         }
 
@@ -165,10 +192,10 @@ public class ShoppingItemController implements Serializable {
      * @return Lists of ShoppingLists
      */
     public List<ShoppingList> availableLists() {
-        //setCurrentList();
-        return shoppingBean.getAvailableLists(
-            AccountsController.getCurrentUser().getEmail()
+        List<ShoppingList> list = shoppingBean.getAvailableLists(
+                AccountsController.getCurrentUser().getEmail()
         );
+        return list;
     }
     
     public void setCurrentList() {
