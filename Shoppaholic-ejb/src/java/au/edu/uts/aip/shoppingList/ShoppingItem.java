@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package au.edu.uts.aip.shoppingList;
 
 import java.io.Serializable;
@@ -13,8 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 /**
- *
- * @author jessekras
+ * ShoppingItem Bean Class
  */
 @Entity
 @NamedQueries({
@@ -71,8 +64,6 @@ public class ShoppingItem implements Serializable {
     public void setShoppingList(ShoppingList shoppingList) {
         this.shoppingList = shoppingList;
     }
-
-    
 
     public ShoppingItem (String name, String description, String addedby, 
             String store, BigDecimal price) {
@@ -146,9 +137,6 @@ public class ShoppingItem implements Serializable {
     public void setTimeCreated(Date timeCreated) {
         this.timeCreated = timeCreated;
     }
-
-    
-    
     
 }
 
