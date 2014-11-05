@@ -53,7 +53,6 @@ public class AccountBean {
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(AccountBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        account.setPlan(SubscriptionPlan.FREE);
         
         
         em.persist(account);

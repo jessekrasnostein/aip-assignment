@@ -12,6 +12,7 @@ package au.edu.uts.aip.pin;
  */
 public class Charge {
     
+    private String email;
     //Amount to be charged in cents >= 100
     private String amount;
     //Description of what the card is for
@@ -20,8 +21,6 @@ public class Charge {
     private String card;
     //Card token as stored in the db to card
     private String card_token;
-    //Charge token of a card just processed
-    private String charge_token;
     //IP Address of the originating client
     private String ip;
     
@@ -31,6 +30,15 @@ public class Charge {
         this.amount = amount;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    
     public String getIp() {
         return ip;
     }
@@ -71,14 +79,7 @@ public class Charge {
         this.card_token = card_token;
     }
 
-    public String getCharge_token() {
-        return charge_token;
-    }
 
-    public void setCharge_token(String charge_token) {
-        this.charge_token = charge_token;
-    }
-    
     
     
     

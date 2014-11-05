@@ -7,6 +7,7 @@ package au.edu.uts.aip.shoppaholic.web;
 
 import au.edu.uts.aip.accounts.Account;
 import au.edu.uts.aip.accounts.AccountBean;
+import au.edu.uts.aip.accounts.SubscriptionPlan;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
@@ -48,6 +49,7 @@ public class AccountsController implements Serializable {
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return null;
         }
+        //if (account.getPlan() != SubscriptionPlan.FREE && account.getChargeToken())
         return "/app/home?faces-redirect=true";
     }
 
@@ -69,9 +71,8 @@ public class AccountsController implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) 
                 context.getExternalContext().getRequest();
-        try {
+        try {  
             accounts.create(account);
-            
             FacesMessage message = new FacesMessage("Account Created Sucessfully. Please Login Below");
             message.setSeverity(SEVERITY_INFO);
             context.addMessage(null, message);
@@ -80,7 +81,6 @@ public class AccountsController implements Serializable {
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return null;
         }
-        
         return "login?faces-redirect=true";
     }
     
