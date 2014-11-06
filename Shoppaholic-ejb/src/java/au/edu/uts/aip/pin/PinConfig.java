@@ -16,14 +16,16 @@ import javax.ws.rs.core.Response;
  */
 public class PinConfig {
     private static final String ENDPOINT = "https://test-api.pin.net.au/";
-    private static final String API_VERSION = "1/charges";
-    private static final String API_SECRET_KEY = "6ir6nigWNX5AAsh4QubHfg";
+    private static final String API_VERSION = "1/";
+    private final String API_SECRET_KEY = "6ir6nigWNX5AAsh4QubHfg";
     
     public static String getTarget() {
         return ENDPOINT + API_VERSION;
     }
     
-
+    public  String getKey() {
+        return API_SECRET_KEY;
+    }
     
     public Client pinClient() {
         Client client = ClientBuilder.newClient().register(new Authenticator(API_SECRET_KEY));

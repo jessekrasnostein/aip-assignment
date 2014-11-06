@@ -4,10 +4,6 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
-    <context-param>  
-        <param-name>primefaces.THEME</param-name>  
-        <param-value>bootstrap</param-value>  
-    </context-param>  
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -50,4 +46,22 @@
         <description>Logged in Users</description>
         <role-name>Users</role-name>
     </security-role>
+    
+    <!-- Configuration of the RESTful API URL, so that it is not hard-coded -->
+    <env-entry>
+        <description>The URL of the "Pinpayments" RESTful web service</description>
+        <env-entry-name>pinService</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>https://test-api.pin.net.au/1/</env-entry-value>
+    </env-entry>
+    
+    <env-entry>
+        <description>The Private Key for Authentication of Pinpayments  RESTful web Service"</description>
+        <env-entry-name>pinPaymentsAPIPrivateKey</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>6ir6nigWNX5AAsh4QubHfg</env-entry-value>
+    </env-entry>
+    
+    
+    
 </web-app>

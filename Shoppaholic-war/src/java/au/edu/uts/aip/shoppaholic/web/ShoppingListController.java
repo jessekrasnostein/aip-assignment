@@ -220,8 +220,9 @@ public class ShoppingListController implements Serializable {
      * @return Lists of ShoppingLists
      */
     public List<ShoppingList> availableLists() {
-        List<ShoppingList> lists = AccountsController.getCurrentUser()
-                .getShoppingLists();
+                List<ShoppingList> lists = shoppingBean.getAvailableLists(
+                AccountsController.getCurrentUser().getEmail());
+
         return lists;
     }
     

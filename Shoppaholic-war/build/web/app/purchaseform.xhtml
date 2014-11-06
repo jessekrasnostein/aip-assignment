@@ -2,8 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Purchase Form - Shoppaholic</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -21,29 +22,52 @@
                 <div class="col-sm-6 col-md-4 col-md-offset-4">
                     <div class="account-wall">
                         <h:graphicImage class="profile-img" value="/resources/img/photo.png"/>
+
                         <h:form class="form-signin">
+                            
                             <h:messages/>
+                            
+                            <h3 class="center-block">Purchase Subscription Plan</h3>
+                            
+                            <hr />
+                            
+                            <p>PRO - $10 Per Month <br />ULTIMATE - $20 Per Month</p>
+
+                            <hr />
+                            
+                            <p>Your Have Chosen Subscription Plan:</p>
+
+                            <p><strong>#{sessionScope.account.plan}</strong></p>
+                            
+                            <p>Please Enter Your Credit Card Details Below to Purchase</p>
+                            
+                            <hr />
+                            
+                            
+                            
+                            <label>Full Name</label>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.name}" />
                             <label>Card Number</label>
-                            <h:inputText class="form-control" value="" id="cardnumber"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.number}" />
                             <label>Expiry Month</label>
-                            <h:inputText class="form-control" value="" id="exp_month"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.expiry_month}" id="exp_month"/>
                             <label>Expiry Year</label>
-                            <h:inputText class="form-control" value="" id="exp_year"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.expiry_year}" id="exp_year"/>
                             <label>CVC</label>
-                            <h:inputText class="form-control" value="" id="cvc"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.cvc}" id="cvc"/>
                             <label>Address Line 1</label>
-                            <h:inputText class="form-control" value="" id="address_line_1"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.address_line1}" id="address_line_1"/>
                             <label>Address Line 2</label>
-                            <h:inputText class="form-control" value="" id="address_line_2"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.address_line2}" id="address_line_2"/>
                             <label>Address City</label>
-                            <h:inputText class="form-control" value="" id="address_city"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.address_city}" id="address_city"/>
                             <label>Address Postcode</label>
-                            <h:inputText class="form-control" value="" id="address_postcode"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.address_postcode}" id="address_postcode"/>
                             <label>Address State</label>
-                            <h:inputText class="form-control" value="" id="address_state"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.address_state}" id="address_state"/>
                             <label>Address Country</label>
-                            <h:inputText class="form-control" value="" id="address_country"/>
-                            <h:commandButton class="btn btn-lg btn-primary btn-block" value="Register" action="#{accountsController.register()}"/>
+                            <h:inputText class="form-control" value="#{paymentController.request.card.address_country}" id="address_country"/>
+                            <h:commandButton class="btn btn-lg btn-primary btn-block" value="Register" action="#{paymentController.createCustomer()}"/>
                         </h:form>
                     </div>
                 </div>

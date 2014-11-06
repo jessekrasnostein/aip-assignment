@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package au.edu.uts.aip.accounts;
 
 import java.security.NoSuchAlgorithmException;
@@ -14,10 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-/**
- *
- * @author jessekras
- */
 @Stateless
 public class AccountBean {
     
@@ -59,4 +49,11 @@ public class AccountBean {
       
         
     }
+    
+    public void update(Account account) {
+        em.merge(account);
+    }
+    
+    
+    
 }

@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
  */
 public class Test {
     
-        private static final String targetEndpoint = "charges";
+        private static final String targetEndpoint = "charges/";
         private final PinConfig pinConfig = new PinConfig();
         
         public void create(Account account, Charge charge) {

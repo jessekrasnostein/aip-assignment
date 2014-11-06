@@ -2,8 +2,8 @@ package au.edu.uts.aip.accounts;
 
 import au.edu.uts.aip.shoppingList.ShoppingList;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -62,7 +62,29 @@ public class Account implements Serializable {
     
     @Enumerated(EnumType.STRING)
     private SubscriptionPlan plan;
+    
+    @Temporal(TemporalType.DATE)
+    private Date subscriptionExpiry;
 
+    public Date getSubscriptionExpiry() {
+        return subscriptionExpiry;
+    }
+
+    public void setSubscriptionExpiry(Date subscriptionExpiry) {
+        this.subscriptionExpiry = subscriptionExpiry;
+    }
+    
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    
 //    
 //    ACCOUNT
 //     -List of ShoppingLists
