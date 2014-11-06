@@ -9,7 +9,9 @@ import au.edu.uts.aip.accounts.Account;
 import au.edu.uts.aip.accounts.AccountBean;
 import au.edu.uts.aip.accounts.SubscriptionPlan;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.ManagedBean;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
@@ -30,6 +32,8 @@ public class AccountsController implements Serializable {
 
     private final Account account = new Account();
     
+    @Resource(name = "defaultAccountType")
+    String defaultAccountType;
     
     @EJB
     private AccountBean accounts;
@@ -38,6 +42,10 @@ public class AccountsController implements Serializable {
         return account;
     }
 
+    public List<Account> getAllAccounts() {
+        return accounts.allAccounts();
+    }
+    
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) 
@@ -72,6 +80,7 @@ public class AccountsController implements Serializable {
         HttpServletRequest request = (HttpServletRequest) 
                 context.getExternalContext().getRequest();
         try {  
+            account.setAccountType(defaultAccountType);
             accounts.create(account);
             FacesMessage message = new FacesMessage("Account Created Sucessfully. Please Login Below");
             message.setSeverity(SEVERITY_INFO);

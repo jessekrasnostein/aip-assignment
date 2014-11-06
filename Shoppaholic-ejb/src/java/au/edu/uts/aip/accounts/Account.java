@@ -65,6 +65,9 @@ public class Account implements Serializable {
     
     @Temporal(TemporalType.DATE)
     private Date subscriptionExpiry;
+    
+    @NotNull(message = "Account type must be set.")
+    private String accountType;
 
     public Date getSubscriptionExpiry() {
         return subscriptionExpiry;
@@ -84,6 +87,15 @@ public class Account implements Serializable {
         this.token = token;
     }
 
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+    
+    
     
 //    
 //    ACCOUNT

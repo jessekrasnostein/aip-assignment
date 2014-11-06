@@ -61,7 +61,25 @@
         <env-entry-type>java.lang.String</env-entry-type>
         <env-entry-value>6ir6nigWNX5AAsh4QubHfg</env-entry-value>
     </env-entry>
+    <env-entry>
+        <description>Price of pro plan"</description>
+        <env-entry-name>proPlanAmount</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>1000</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <description>Price of ultimate plan"</description>
+        <env-entry-name>ultimatePlanAmount</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>2000</env-entry-value>
+    </env-entry>
     
+    <env-entry>
+        <description>Default Account Type</description>
+        <env-entry-name>defaultAccountType</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>USER</env-entry-value>
+    </env-entry>
     
     
 </web-app>

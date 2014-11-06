@@ -1,6 +1,7 @@
 package au.edu.uts.aip.accounts;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -13,6 +14,12 @@ public class AccountBean {
     
     @PersistenceContext
     private EntityManager em;
+    
+    public List<Account> allAccounts() {
+        TypedQuery<Account> query = em.createQuery("select a from Account a",
+                Account.class);
+        return query.getResultList();
+    }
     
     public Account findByEmail(String email) {
         

@@ -6,7 +6,7 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <title>Home - Shoppaholic App</title>
+        <title>Admin - Shoppaholic App</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
     </h:head>
@@ -45,60 +45,60 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12 col-md-12 main">
                     <h:messages/>
-                    <h1 class="page-header">Your Shopping Lists</h1>
+                    <h1 class="page-header">System Users</h1>
                     <div class="table-responsive">
-                        
-                        <h:dataTable styleClass="table table-striped" var="list"  value="#{shoppingListController.availableLists()}">
+
+                        <h:dataTable styleClass="table table-striped" var="user"  value="#{accountsController.getAllAccounts()}">
                             <h:column headerClass="idColumn">
                                 <f:facet name="header">
-                                    List Id
+                                    User Id
                                 </f:facet>
-                                <h:outputText value="#{list.id}"/>
+                                <h:outputText value="#{user.acctId}"/>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
-                                    List Name
+                                    Username
                                 </f:facet>
-                                <h:outputText value="#{list.name}"/>
+                                <h:outputText value="#{user.username}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    User Type
+                                </f:facet>
+                                <h:outputText value="#{user.accountType}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Subscription Type
+                                </f:facet>
+                                <h:outputText value="#{user.plan}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Billing Date
+                                </f:facet>
+                                <h:outputText value="#{user.subscriptionExpiry}"/>
                             </h:column>
                             <h:column headerClass="show-below" >
                                 <h:form> 
-                                    
+
                                 </h:form>
                             </h:column>
                             <h:column >
                                 <f:facet name="header">
                                     Actions
                                 </f:facet>
-                                <h:form><h:link class="btn btn-success" value="View" outcome="viewlist">
-                                        <f:param name="index" value="#{list.id}"/>
-                                    </h:link>
-                                    <h:link class="btn btn-info" value="Edit" outcome="editlist">
-                                        <f:param name="index" value="#{list.id}"/>
-                                    </h:link>
-                                    <h:commandButton class="btn btn-danger" value="Delete" action="#{shoppingListController.deleteList(list)}"/>
-                                </h:form>
-                                    
-                                
+                                <h:form>
+                                    <f:param name="userId" value="#{user.acctId}"/>
+                                    <h:commandButton class="btn btn-success" value="Bill" action="#{paymentController.chargeCustomer(user)}"/>
+                                </h:form>  
                             </h:column>
-
                         </h:dataTable>
-                    </div>
-                    
-                    <div>
-                        <h:link class="btn btn-primary btn-lg" value="Create New Shopping List" outcome="createlist"/>
-                        <br /><br /><br /><br />
-                        <h:form>
-                            <h:commandButton value="Add Sample Data" action="#{shoppingListController.addSampleData()}"/>
-                        </h:form> 
-                        <h:form>
-                            <h:commandButton value="Clear Cache" action="#{shoppingListController.clearCache}"/>
-                        </h:form> 
                     </div>
                 </div>
             </div>

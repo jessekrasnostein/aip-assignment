@@ -31,6 +31,10 @@ public class PaymentController {
 
     @Resource(name = "pinService")
     String pinService;
+    @Resource(name = "proPlanAmount")
+    String proPlanAmount;
+    @Resource(name = "ultimatePlanAmount")
+    String ultimatePlanAmount;
 
     @Resource(name = "pinPaymentsAPIPrivateKey")
     String pinPaymentsAPIPrivateKey;
@@ -132,10 +136,6 @@ public class PaymentController {
 
         FacesContext context = FacesContext.getCurrentInstance();
 
-        // Get IP Address of the Localhost making the Payment
-        HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String ip = httpServletRequest.getRemoteAddr();
-
         // Initiate a new Client for REST API
         Client client = null;
 
@@ -148,25 +148,24 @@ public class PaymentController {
         // Set Account Email, Description, Ip Address, Amount and Customer Token to Charge Request
         chargeRequest.setEmail(account.getEmail());
         chargeRequest.setDescription(account.getPlan().toString() + " Subscription Plan 1 Month Payment");
-        chargeRequest.setIp_address(ip);
+        chargeRequest.setIp_address(getCustomerIp());
 
         // Switch Statement to set Amount to be Charge
         switch (account.getPlan()) {
             case PRO:
-                chargeRequest.setAmount("1000");
+                chargeRequest.setAmount(proPlanAmount);
                 break;
 
             case ULTIMATE:
-                chargeRequest.setAmount("2000");
+                chargeRequest.setAmount(ultimatePlanAmount);
                 break;
 
             default:
 
                 break;
         }
-
+        //set the request customer token from the user account
         chargeRequest.setCustomer_token(account.getToken());
-        System.out.println("Charge customer: " + chargeRequest.toString());
         try {
             client = ClientBuilder.newClient().register(new Authenticator(pinPaymentsAPIPrivateKey));
 
@@ -191,17 +190,22 @@ public class PaymentController {
 
                 context.addMessage(null,
                         new FacesMessage("Success: "
-                                + account.getPlan().toString() + " Subscription Plan Purchased - $"
-                                + chargeResponse.getResponse().getAmount() + " Charged to Credit Card"));
-
+                                + account.getPlan().toString() 
+                                + " Subscription Plan Purchased - "
+                                + " Credit Card has been charged."));
+                
                 context.addMessage(null,
-                        new FacesMessage("Your " + account.getPlan().toString() + " subscription plan Expires on "
+                        new FacesMessage(account.getPlan().toString() 
+                                + " subscription plan Expires on "
                                 + account.getSubscriptionExpiry().toString()));
             }
         } catch (ProcessingException | WebApplicationException e) {
             Logger log = Logger.getLogger(this.getClass().getName());
-            log.log(Level.SEVERE, "Could not communicate with Pin Payments API service", e);
-            context.addMessage(null, new FacesMessage("An error occurred communicating with the Pin Payments API server, please try again later"));
+            log.log(Level.SEVERE, "Could not communicate with "
+                    + "Pin Payments API service", e);
+            context.addMessage(null, new FacesMessage("An error occurred "
+                    + "communicating with the Pin Payments API server, "
+                    + "please try again later"));
 
         } finally {
             // make sure that client is closed, if it was created
@@ -209,7 +213,13 @@ public class PaymentController {
                 client.close();
             }
         }
-
+    }
+    
+    private String getCustomerIp() {
+        // Get IP Address of the localhost making the Payment
+        HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String ip = httpServletRequest.getRemoteAddr();
+        return ip;
     }
 
 }
