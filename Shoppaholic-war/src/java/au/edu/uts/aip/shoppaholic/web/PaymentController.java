@@ -32,48 +32,76 @@ public class PaymentController {
     @Resource(name = "pinService")
     String pinService;
 
-    @EJB
-    private AccountBean accounts;
-    
     @Resource(name = "pinPaymentsAPIPrivateKey")
     String pinPaymentsAPIPrivateKey;
+
+    @EJB
+    private AccountBean accounts;
 
     private CustomerRequest request = new CustomerRequest();
     private FullCustomerResponse response;
 
+    /**
+     * Get the customer request object
+     *
+     * @return CustomerRequest object
+     */
     public CustomerRequest getRequest() {
         return request;
     }
 
+    /**
+     * Set the customer request object up from webform
+     *
+     * @param request
+     */
     public void setRequest(CustomerRequest request) {
         this.request = request;
     }
+
+    public String pay() {
+        Account account;
+        if (AccountsController.getCurrentUser().getToken()==null) {
+            account = createCustomer(); 
+        } else {
+            account = AccountsController.getCurrentUser(); 
+        }
+        chargeCustomer(account);
+        return "home";
+    }
     
-    public String createCustomer() {
-
+    public Account createCustomer() {
+        //find the account currently logged in
+        Account account = accounts.findByUsername(AccountsController.getCurrentUser().getUsername());
+        //Add the users current email to the request
         request.setEmail(AccountsController.getCurrentUser().getEmail());
-        System.out.println("Request's current user is: " + request.getEmail());
 
+        //Create a new JAX RS client to send json request to
         Client client = null;
 
         try {
-            System.out.println("Pin payments api key = " + pinPaymentsAPIPrivateKey);
-            client = ClientBuilder.newClient().register(new Authenticator(pinPaymentsAPIPrivateKey));
+            /**
+             * Instantiate client and register it with the Authenticator and
+             * apiKey
+             */
+            client = ClientBuilder.newClient()
+                    .register(new Authenticator(pinPaymentsAPIPrivateKey));
 
+            /**
+             * Send the request object to the client as JSON and catch the
+             * response
+             */
             response = client.target(pinService + "customers")
                     .request()
                     .post(Entity.json(request), FullCustomerResponse.class);
-            System.out.println(response.getResponse().getToken());
-            //add token field to account.
 
-            //find the account currently logged in
-            Account account = accounts.findByUsername(AccountsController.getCurrentUser().getUsername());
+            
             //add the token to the account from the response to the account
             account.setToken(response.getResponse().getToken());
             accounts.update(account);
 
             // Charge Customer Account
-            chargeCustomer(account);
+            //chargeCustomer(account);
 
         } catch (ProcessingException | WebApplicationException e) {
             Logger log = Logger.getLogger(this.getClass().getName());
@@ -82,7 +110,7 @@ public class PaymentController {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("An error occurred communicating with the Pin Payments API server, please try again later"));
             // Stay on the same page in the event of an error
-            return null;
+            //return null;
         } finally {
             // make sure that client is closed, if it was created
             if (client != null) {
@@ -90,35 +118,38 @@ public class PaymentController {
             }
         }
 
-        return "home";
+        return account;
     }
-    
+
     /**
-     * Charge Account with CreditCard details and get a response to handle subscription of the Account
-     * @param account Account that the PinPayments API will Charge to and return a response
+     * Charge Account with CreditCard details and get a response to handle
+     * subscription of the Account
+     *
+     * @param account Account that the PinPayments API will Charge to and return
+     * a response
      */
     public void chargeCustomer(Account account) {
 
         FacesContext context = FacesContext.getCurrentInstance();
-        
+
         // Get IP Address of the Localhost making the Payment
         HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String ip = httpServletRequest.getRemoteAddr();
 
         // Initiate a new Client for REST API
         Client client = null;
-        
+
         // Initiate a Charge Request Object 
         ChargeRequest chargeRequest = new ChargeRequest();
 
         // Initiate a Charge Response Object
         FullChargeResponse chargeResponse;
-        
+
         // Set Account Email, Description, Ip Address, Amount and Customer Token to Charge Request
         chargeRequest.setEmail(account.getEmail());
         chargeRequest.setDescription(account.getPlan().toString() + " Subscription Plan 1 Month Payment");
         chargeRequest.setIp_address(ip);
-                
+
         // Switch Statement to set Amount to be Charge
         switch (account.getPlan()) {
             case PRO:
@@ -130,11 +161,10 @@ public class PaymentController {
                 break;
 
             default:
-                
+
                 break;
         }
-        
-        
+
         chargeRequest.setCustomer_token(account.getToken());
         System.out.println("Charge customer: " + chargeRequest.toString());
         try {
@@ -143,16 +173,16 @@ public class PaymentController {
             chargeResponse = client.target(pinService + "charges")
                     .request()
                     .post(Entity.json(chargeRequest), FullChargeResponse.class);
-            
+
             if (chargeResponse.getResponse().getSuccess().equalsIgnoreCase("true")) {
 
                 // Create Date Object one Month from Purchase Date for Expiry Date
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.MONTH, 1);
-                
+
                 // Create new Date for Expiry Date of Account Subscription
                 Date date = new Date(cal.getTimeInMillis());
-                
+
                 //Set Expiry Date to Account
                 account.setSubscriptionExpiry(date);
 
