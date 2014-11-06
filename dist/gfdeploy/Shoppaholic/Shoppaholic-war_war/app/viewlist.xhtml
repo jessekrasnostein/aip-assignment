@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <f:metadata>
         <f:viewAction action="#{shoppingListController.loadList(param.index)}"/>
@@ -33,6 +34,15 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li><h:link class="new-account" outcome="home">Home</h:link></li>
                         <li><h:link class="new-account" outcome="createlist">Create List</h:link></li>
+                        <c:if test="#{sessionScope.account.plan == 'FREE'}">
+                            <li><h:link class="new-account" outcome="purchaseform">Upgrade</h:link></li>
+                        </c:if>
+                        <c:if test="#{sessionScope.account.plan == 'PRO'}">
+                            <li><h:link class="new-account" outcome="purchaseform">Upgrade</h:link></li>
+                        </c:if>
+                        <c:if test="#{sessionScope.account.accountType == 'ADMIN'}">
+                            <li><h:link class="new-account" outcome="admin">Admin</h:link></li>
+                        </c:if>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a><h:outputText class="new-account" value="#{sessionScope.account.firstname}" /></a></li>
@@ -76,12 +86,6 @@
                                         Store
                                     </f:facet>
                                     <h:outputText value="#{item.store}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        Added By
-                                    </f:facet>
-                                    <h:outputText value="#{item.addedBy}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">

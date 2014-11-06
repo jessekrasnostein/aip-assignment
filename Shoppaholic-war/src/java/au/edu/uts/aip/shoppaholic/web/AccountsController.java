@@ -46,6 +46,19 @@ public class AccountsController implements Serializable {
         return accounts.allAccounts();
     }
     
+    public String isAdmin() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) 
+                context.getExternalContext().getRequest();
+        System.out.println("Testing validity.");
+        if (AccountsController.getCurrentUser().getAccountType().equalsIgnoreCase("USER")) {
+            context.addMessage(null, new FacesMessage("Access Denied"));
+            System.out.println("Check failed..");
+            return "home?faces-redirect=true";
+        }
+        return null;
+    }
+    
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) 
