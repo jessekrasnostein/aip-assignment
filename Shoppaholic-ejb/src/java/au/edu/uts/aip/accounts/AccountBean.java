@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +15,9 @@ public class AccountBean {
     
     @PersistenceContext
     private EntityManager em;
+    
+    @Resource(name = "defaultAccountType")
+    String defaultAccountType;
     
     public List<Account> allAccounts() {
         TypedQuery<Account> query = em.createQuery("select a from Account a",
@@ -38,19 +42,13 @@ public class AccountBean {
     }
     
     public void create(Account account){
-        Logger log = Logger.getLogger(this.getClass().getName());
-        log.info("Saving account to database");
-        System.out.println(account.getEmail());
-        System.out.println(account.getAcctId());
-        System.out.println(account.getDateOfBirth());
-        System.out.println(account.getFirstname());
-        System.out.println(account.getLastname());
+        account.setAccountType(defaultAccountType);
+        
         try {
             account.setPassword(Sha.hash256(account.getPassword()));
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(AccountBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         
         em.persist(account);
       

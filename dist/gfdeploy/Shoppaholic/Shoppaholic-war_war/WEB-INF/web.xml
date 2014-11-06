@@ -73,6 +73,12 @@
         <env-entry-type>java.lang.String</env-entry-type>
         <env-entry-value>2000</env-entry-value>
     </env-entry>
+    <env-entry>
+        <description>Default plan"</description>
+        <env-entry-name>defaultSubPlan</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>FREE</env-entry-value>
+    </env-entry>
     
     <env-entry>
         <description>Default Account Type</description>

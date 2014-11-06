@@ -2,6 +2,7 @@ package au.edu.uts.aip.shoppaholic.web;
 
 import au.edu.uts.aip.accounts.Account;
 import au.edu.uts.aip.accounts.AccountBean;
+import au.edu.uts.aip.accounts.SubscriptionPlan;
 import au.edu.uts.aip.pin.Authenticator;
 import au.edu.uts.aip.pin.requests.ChargeRequest;
 import au.edu.uts.aip.pin.requests.CustomerRequest;
@@ -42,6 +43,8 @@ public class PaymentController {
     @EJB
     private AccountBean accounts;
 
+    private SubscriptionPlan plan;
+    
     private CustomerRequest request = new CustomerRequest();
     private FullCustomerResponse response;
 
@@ -70,6 +73,7 @@ public class PaymentController {
         } else {
             account = AccountsController.getCurrentUser(); 
         }
+        
         chargeCustomer(account);
         return "home";
     }
@@ -144,12 +148,13 @@ public class PaymentController {
 
         // Initiate a Charge Response Object
         FullChargeResponse chargeResponse;
-
+        account.setPlan(plan);
+        
         // Set Account Email, Description, Ip Address, Amount and Customer Token to Charge Request
         chargeRequest.setEmail(account.getEmail());
         chargeRequest.setDescription(account.getPlan().toString() + " Subscription Plan 1 Month Payment");
         chargeRequest.setIp_address(getCustomerIp());
-
+        
         // Switch Statement to set Amount to be Charge
         switch (account.getPlan()) {
             case PRO:
@@ -168,7 +173,7 @@ public class PaymentController {
         chargeRequest.setCustomer_token(account.getToken());
         try {
             client = ClientBuilder.newClient().register(new Authenticator(pinPaymentsAPIPrivateKey));
-
+            
             chargeResponse = client.target(pinService + "charges")
                     .request()
                     .post(Entity.json(chargeRequest), FullChargeResponse.class);
@@ -222,4 +227,11 @@ public class PaymentController {
         return ip;
     }
 
+    public SubscriptionPlan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(SubscriptionPlan plan) {
+        this.plan = plan;
+    }
 }

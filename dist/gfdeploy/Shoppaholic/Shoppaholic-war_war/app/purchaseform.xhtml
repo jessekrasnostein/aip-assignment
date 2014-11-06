@@ -29,21 +29,10 @@
                             
                             <h3 class="center-block">Purchase Subscription Plan</h3>
                             
-                            <hr />
-                            
-                            <p>PRO - $10 Per Month <br />ULTIMATE - $20 Per Month</p>
-
-                            <hr />
-                            
-                            <p>Your Have Chosen Subscription Plan:</p>
-
-                            <p><strong>#{sessionScope.account.plan}</strong></p>
-                            
-                            <p>Please Enter Your Credit Card Details Below to Purchase</p>
-                            
-                            <hr />
-                            
-                            
+                            <h:selectOneRadio value="#{paymentController.plan}">
+                                <f:selectItem itemValue="PRO" itemLabel="PRO ($10 per month)" />
+                                <f:selectItem itemValue="ULTIMATE" itemLabel="ULTIMATE ($20 per month)" />
+                            </h:selectOneRadio>
                             
                             <label>Full Name</label>
                             <h:inputText class="form-control" value="#{paymentController.request.card.name}" />

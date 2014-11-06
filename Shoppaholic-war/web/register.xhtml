@@ -39,11 +39,6 @@
                             <h:inputText class="form-control" value="#{accountsController.account.dateOfBirth}"  >
                                 <f:convertDateTime pattern="dd-mm-yyyy" />
                             </h:inputText>
-                            <h:selectOneRadio value="#{accountsController.account.plan}">
-                                <f:selectItem itemValue="FREE" itemLabel="FREE" />
-                                <f:selectItem itemValue="PRO" itemLabel="PRO ($10 per month)" />
-                                <f:selectItem itemValue="ULTIMATE" itemLabel="ULTIMATE ($20 per month)" />
-                            </h:selectOneRadio>
                             <h:commandButton class="btn btn-lg btn-primary btn-block" value="Register" action="#{accountsController.register()}"/>
                         </h:form>
                     </div>
