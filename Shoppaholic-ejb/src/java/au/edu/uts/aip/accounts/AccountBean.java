@@ -43,7 +43,6 @@ public class AccountBean {
     
     public void create(Account account){
         account.setAccountType(defaultAccountType);
-        
         try {
             account.setPassword(Sha.hash256(account.getPassword()));
         } catch (NoSuchAlgorithmException ex) {
